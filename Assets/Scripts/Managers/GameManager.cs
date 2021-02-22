@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
+
+public class EventGameState : UnityEvent<GameManager.GameState, GameManager.GameState> { }
+public class EventLevelData : UnityEvent<string> {}
+
 
 public class GameManager : Singleton<GameManager>
 {
@@ -11,14 +16,39 @@ public class GameManager : Singleton<GameManager>
     // generate other persistent systems
 
 
+
     public GameObject[] systemPrefabs;
     private List<GameObject> instancedSystemPrefabs;
 
-    private string currentLevelName = string.Empty;
+    public string currentLevelName = string.Empty;
     List<AsyncOperation> loadOperations;
 
     private int sceneCount;
     public List<string> scenesInBuild = new List<string>();
+
+    public enum GameState
+    {
+        PREGAME,
+        RUNNING,
+        PAUSED,
+        LEVELSTART,
+        LEVELEND,
+    }
+
+    private GameState currentGameState;
+    public GameState CurrentGameState
+    {
+        get { return currentGameState; }
+        private set { currentGameState = value; }
+    }
+
+    public EventGameState OnGameStateChanged = new EventGameState();
+
+    public GameObject scoreKeeper;
+    public GameObject uiManager;
+
+    public EventLevelData OnLevelChanged = new EventLevelData();
+
 
 
     private void Start()
@@ -37,9 +67,50 @@ public class GameManager : Singleton<GameManager>
             print(scenesInBuild[i].ToString());
         }
 
-        InstantiateSystemPrefabs();
+        //InstantiateSystemPrefabs();
 
-        //LoadLevel("Level01");
+        UpdateGameState(GameState.PREGAME);
+
+    }
+
+    void UpdateGameState(GameState state)
+    {
+        GameState previousGameState = currentGameState;
+        currentGameState = state;
+
+        switch (currentGameState)
+        {
+            case GameState.PREGAME:
+                Time.timeScale = 0f;
+                break;
+
+            case GameState.RUNNING:
+                Time.timeScale = 1f;
+                break;
+
+            case GameState.PAUSED:
+                Time.timeScale = 0f;
+                break;
+
+            case GameState.LEVELSTART:
+                Time.timeScale = 0f;
+                break;
+
+            case GameState.LEVELEND:
+                Time.timeScale = 0f;
+                break;
+
+            default:
+                Time.timeScale = 1f;
+                break;
+        }
+
+        print("Current GameState: " + currentGameState);
+        if (OnGameStateChanged != null)
+        {
+            OnGameStateChanged.Invoke(currentGameState, previousGameState);
+        }
+
     }
 
 
@@ -51,11 +122,13 @@ public class GameManager : Singleton<GameManager>
         }
 
         Debug.Log("Load Complete");
+        UpdateGameState(GameState.LEVELSTART);
     }
 
     private void OnUnloadOperationComplete(AsyncOperation ao)
     {
         Debug.Log("Unload Complete");
+        UpdateGameState(GameState.PREGAME);
     }
 
     public void LoadLevel(string levelName)
@@ -73,6 +146,7 @@ public class GameManager : Singleton<GameManager>
             ao.completed += OnLoadOperationComplete;
 
             currentLevelName = levelName;
+            OnLevelChanged.Invoke(currentLevelName);
         }
         else
         {
@@ -115,6 +189,7 @@ public class GameManager : Singleton<GameManager>
         {
             UnloadLevel(currentLevelName);
             currentLevelName = string.Empty;
+
         }
         else
         {
