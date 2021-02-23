@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 // Handles all movement during the game/play scenes
 public class PlayerController : MonoBehaviour
@@ -11,96 +12,49 @@ public class PlayerController : MonoBehaviour
     private Vector2 mouseDifference;
 
     public Rigidbody2D playerRb;
-    public GameObject wandObject;
-    public GameManager gameManager;
-    public GameObject cooldownOverlay;
+    //public GameObject wandObject;
+    //public GameObject cooldownOverlay;
 
     public float boostForce = 7;
     public float boostCooldown = .5f;
 
-    private float boostNextFireTime = 0;
-    private float boostCooldownLeftPercent;
+    //private float boostNextFireTime = 0;
+    //private float boostCooldownLeftPercent;
 
-    public static string controlScheme;
-    public string controlSchemeInput;
+    //public static string controlScheme;
+    //public string controlSchemeInput;
+
+    private InputActions inputActions;
 
 
     private void Awake()
     {
-        // Sets controls variable for InputAction asset
-        //controls = new GameInput();
+        inputActions = new InputActions();
+    }
 
-        // Subscribes to events and directs output
-        //controls.Player.Boost.performed += context => BoostPlayer();
-
-        controlScheme = controlSchemeInput;
-
+    private void Start()
+    {
+        inputActions.Player.Click.performed += _ => BoostPlayer();
     }
 
     private void OnEnable()
     {
-        // Enables input controls
-        //controls.Enable();
+        inputActions.Enable();
     }
 
     private void OnDisable()
     {
-        // Disables input controls
-        //controls.Disable();
+        inputActions.Disable();
     }
+
 
     private void FixedUpdate()
     {
         // Set the variables for aiming at the mouse
         SetMouseDirection();
 
-        // Rotates wand to point at mouse
-        RotateWand(wandObject);
-
-        // Calculates cooldown % remaining and manages visual effects for it
-        BoostCooldownEffect();
-
     }
 
-
-    // On collision with 2d colliders
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        if (other.gameObject.CompareTag("Target"))
-        {
-            collideWithTarget(other.gameObject);
-        }
-        else if (other.gameObject.CompareTag("Powerup"))
-        {
-            collideWithPowerup(other.gameObject);
-        }
-        else if (other.gameObject.CompareTag("Button"))
-        {
-            collideWithButton(other.gameObject);
-        }
-
-    }
-
-    // When colliding with targets
-    public void collideWithTarget(GameObject other)
-    {
-        Destroy(other);
-        print("Destroyed " + other.name);
-
-    }
-
-    // when colliding with powerups
-    public void collideWithPowerup(GameObject other)
-    {
-        Destroy(other);
-        print("Destroyed " + other.name);
-    }
-
-    // when colliding with buttons
-    public void collideWithButton(GameObject other)
-    {
-        print("Destroyed " + other.name);
-    }
 
     // Rotates pivotObjectName to point at mouse cursor
     public void RotateWand(GameObject pivotObjectName)
@@ -113,46 +67,23 @@ public class PlayerController : MonoBehaviour
     // Calculates direction and angle between player and mouse
     public void SetMouseDirection()
     {
-        // Calculates the difference between mouse position and player position and normalizes it.
-        switch (controlScheme)
-        {
-            case "a":
-                mouseDifference = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
-                break;
-            case "b":
-                mouseDifference = -(Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position);
-                break;
-            default:
-                mouseDifference = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
-                break;
-        }
-
+        mouseDifference = Camera.main.ScreenToWorldPoint(Pointer.current.position.ReadValue()) - transform.position;
         mouseDifference.Normalize();
-
-        // Calculates the angle in degrees between two normalized values
-        mouseRotationZ = Mathf.Atan2(mouseDifference.y, mouseDifference.x) * Mathf.Rad2Deg;
 
     }
 
     // Handles boosting player in the direction of the mouse plus setting and checking the cooldown
     public void BoostPlayer()
     {
-        if (GameManager.Instance.CurrentGameState != GameManager.GameState.PAUSED)
-        {
-            if (boostCooldownLeftPercent == 1)
-            {
-                playerRb.AddForce(mouseDifference * boostForce, ForceMode2D.Impulse);
-                boostNextFireTime = Time.time + boostCooldown;
-            }
-            else
-            {
-                print((boostNextFireTime - Time.time) + " Seconds Left on the boost cooldown");
-            }
-        }
+        print("Boost!");
+
+        playerRb.AddForce(mouseDifference * boostForce, ForceMode2D.Impulse);
 
     }
 
     // Calculates boost cooldown then adjusts sprite opacity and enables/disables the wand
+
+    /*
     public void BoostCooldownEffect()
     {
         SpriteRenderer spriteRenderer = cooldownOverlay.GetComponent<SpriteRenderer>();
@@ -170,7 +101,7 @@ public class PlayerController : MonoBehaviour
             //GameObject.Find("Wand").GetComponent<SpriteRenderer>().enabled = true;
         }
     }
-
+*/
 
 }
 

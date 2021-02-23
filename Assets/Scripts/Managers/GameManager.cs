@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Events;
 
 public class EventGameState : UnityEvent<GameManager.GameState, GameManager.GameState> { }
-public class EventLevelData : UnityEvent<string> {}
+public class EventLevelData : UnityEvent<string> { }
 
 
 public class GameManager : Singleton<GameManager>
@@ -43,32 +43,22 @@ public class GameManager : Singleton<GameManager>
     }
 
     public EventGameState OnGameStateChanged = new EventGameState();
-
+    public EventLevelData OnLevelChanged = new EventLevelData();
+    
     public GameObject scoreKeeper;
     public GameObject uiManager;
 
-    public EventLevelData OnLevelChanged = new EventLevelData();
+
 
 
 
     private void Start()
     {
         DontDestroyOnLoad(gameObject);
-
         instancedSystemPrefabs = new List<GameObject>();
-
         loadOperations = new List<AsyncOperation>();
-
-        sceneCount = SceneManager.sceneCountInBuildSettings;
-
-        for (int i = 0; i < sceneCount; i++)
-        {
-            scenesInBuild.Add(System.IO.Path.GetFileNameWithoutExtension(SceneUtility.GetScenePathByBuildIndex(i)));
-            print(scenesInBuild[i].ToString());
-        }
-
         //InstantiateSystemPrefabs();
-
+        CheckScenesInBuild();
         UpdateGameState(GameState.PREGAME);
 
     }
@@ -121,18 +111,20 @@ public class GameManager : Singleton<GameManager>
             loadOperations.Remove(ao);
         }
 
-        Debug.Log("Load Complete");
+        //Debug.Log("Load Complete");
         UpdateGameState(GameState.LEVELSTART);
     }
 
     private void OnUnloadOperationComplete(AsyncOperation ao)
     {
-        Debug.Log("Unload Complete");
+        //Debug.Log("Unload Complete");
         UpdateGameState(GameState.PREGAME);
     }
 
     public void LoadLevel(string levelName)
     {
+        CheckActiveScenes();
+
         if (currentLevelName == string.Empty)
         {
             AsyncOperation ao = SceneManager.LoadSceneAsync(levelName, LoadSceneMode.Additive);
@@ -150,10 +142,11 @@ public class GameManager : Singleton<GameManager>
         }
         else
         {
-            Debug.Log(currentLevelName + " is already loaded. Unload the current scene before loading a new one");
+            print(currentLevelName + " is already loaded. Unload the current scene before loading a new one");
         }
-
     }
+
+
 
     public void LoadLevelByIndex(int buildIndex)
     {
@@ -168,7 +161,6 @@ public class GameManager : Singleton<GameManager>
         ao.completed += OnLoadOperationComplete;
 
         currentLevelName = SceneManager.GetSceneByBuildIndex(buildIndex).name;
-        print(currentLevelName);
     }
 
     public void UnloadLevel(string levelName)
@@ -181,15 +173,17 @@ public class GameManager : Singleton<GameManager>
         }
 
         ao.completed += OnUnloadOperationComplete;
+
+        currentLevelName = string.Empty;
     }
 
     public void UnloadCurrentLevel()
     {
+        CheckActiveScenes();
+
         if (currentLevelName != string.Empty)
         {
             UnloadLevel(currentLevelName);
-            currentLevelName = string.Empty;
-
         }
         else
         {
@@ -219,6 +213,37 @@ public class GameManager : Singleton<GameManager>
 
         instancedSystemPrefabs.Clear();
 
+    }
+
+    private void CheckActiveScenes()
+    {
+        int activeSceneCount = SceneManager.sceneCount;
+
+        for (int i = 0; i < activeSceneCount; i++)
+        {
+            if (SceneManager.GetSceneAt(i).name != "MainMenu")
+            {
+                currentLevelName = SceneManager.GetSceneAt(i).name;
+                break;
+            }
+            else
+            {
+                currentLevelName = string.Empty;
+            }
+        }
+    }
+
+    public void CheckScenesInBuild()
+    {
+        sceneCount = SceneManager.sceneCountInBuildSettings;
+
+        for (int i = 0; i < sceneCount; i++)
+        {
+            scenesInBuild.Add(System.IO.Path.GetFileNameWithoutExtension(SceneUtility.GetScenePathByBuildIndex(i)));
+
+        }
+
+        print(scenesInBuild.Count + " scenes are in the build");
     }
 
 }

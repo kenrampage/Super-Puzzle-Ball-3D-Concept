@@ -44,6 +44,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Box_Wood (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 6533788471180792153, guid: 80624a4820dd8ad47866d7e9b7991534, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: 5a3476a39dde8b84295666ec13428cb2, type: 2}
     - target: {fileID: 6533788471180792155, guid: 80624a4820dd8ad47866d7e9b7991534, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -106,6 +110,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Box_Wood
       objectReference: {fileID: 0}
+    - target: {fileID: 6533788471180792153, guid: 80624a4820dd8ad47866d7e9b7991534, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: 5a3476a39dde8b84295666ec13428cb2, type: 2}
     - target: {fileID: 6533788471180792155, guid: 80624a4820dd8ad47866d7e9b7991534, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -168,6 +176,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Box_Wood (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 6533788471180792153, guid: 80624a4820dd8ad47866d7e9b7991534, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: 5a3476a39dde8b84295666ec13428cb2, type: 2}
     - target: {fileID: 6533788471180792155, guid: 80624a4820dd8ad47866d7e9b7991534, type: 3}
       propertyPath: m_RootOrder
       value: 1
