@@ -1,5 +1,5 @@
 {
-    "name": "Super-Puzzle-Ball",
+    "name": "InputActions",
     "maps": [
         {
             "name": "Player",
@@ -10,6 +10,14 @@
                     "type": "Button",
                     "id": "22cf8767-6433-4fc2-942a-8006a4c8d47a",
                     "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Mouse Aim",
+                    "type": "Value",
+                    "id": "21619a15-92bf-477b-a079-9b3ce9133aa8",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
                 }
@@ -23,6 +31,17 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "Click",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "03f724ed-7a27-498a-96e8-f29d8c2c28f3",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Mouse Aim",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -6,26 +6,21 @@ using UnityEngine.InputSystem;
 // Handles all movement during the game/play scenes
 public class PlayerController : MonoBehaviour
 {
-    //private GameInput controls;
-
-    private float mouseRotationZ;
-    private Vector2 mouseDifference;
-
     public Rigidbody2D playerRb;
-    //public GameObject wandObject;
-    //public GameObject cooldownOverlay;
 
     public float boostForce = 7;
     public float boostCooldown = .5f;
 
-    //private float boostNextFireTime = 0;
-    //private float boostCooldownLeftPercent;
+    private float boostNextFireTime = 0;
+    private float boostCooldownLeftPercent;
 
-    //public static string controlScheme;
-    //public string controlSchemeInput;
+    public GameObject cooldownOverlay;
+    public SpriteRenderer cooldownSprite;
 
     private InputActions inputActions;
-
+    public Camera gameCamera;
+    private Vector2 relativeMousePos;
+    private Vector2 normalizedMousePos;
 
     private void Awake()
     {
@@ -35,6 +30,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         inputActions.Player.Click.performed += _ => BoostPlayer();
+        SpriteRenderer cooldownSprite = cooldownOverlay.GetComponent<SpriteRenderer>();
     }
 
     private void OnEnable()
@@ -47,61 +43,57 @@ public class PlayerController : MonoBehaviour
         inputActions.Disable();
     }
 
-
-    private void FixedUpdate()
+    private void Update()
     {
         // Set the variables for aiming at the mouse
+        BoostCooldownEffect();
         SetMouseDirection();
-
     }
-
-
-    // Rotates pivotObjectName to point at mouse cursor
-    public void RotateWand(GameObject pivotObjectName)
-    {
-        pivotObjectName.transform.rotation = Quaternion.Euler(0f, 0f, mouseRotationZ);
-    }
-
-
 
     // Calculates direction and angle between player and mouse
     public void SetMouseDirection()
     {
-        mouseDifference = Camera.main.ScreenToWorldPoint(Pointer.current.position.ReadValue()) - transform.position;
-        mouseDifference.Normalize();
+        relativeMousePos = gameCamera.ScreenToWorldPoint(inputActions.Player.MouseAim.ReadValue<Vector2>()) - transform.position;
+        normalizedMousePos = relativeMousePos.normalized;
+        print(normalizedMousePos);
 
     }
 
     // Handles boosting player in the direction of the mouse plus setting and checking the cooldown
     public void BoostPlayer()
     {
-        print("Boost!");
+        //print("Boost!");
 
-        playerRb.AddForce(mouseDifference * boostForce, ForceMode2D.Impulse);
+
+        if (boostCooldownLeftPercent == 1)
+        {
+            playerRb.AddForce(normalizedMousePos * boostForce, ForceMode2D.Impulse);
+            boostNextFireTime = Time.time + boostCooldown;
+        }
+        else
+        {
+            print((boostNextFireTime - Time.time) + " Seconds Left on the boost cooldown");
+        }
 
     }
 
     // Calculates boost cooldown then adjusts sprite opacity and enables/disables the wand
 
-    /*
     public void BoostCooldownEffect()
     {
-        SpriteRenderer spriteRenderer = cooldownOverlay.GetComponent<SpriteRenderer>();
 
         if (boostNextFireTime > Time.time)
         {
             boostCooldownLeftPercent = (boostNextFireTime - Time.time) / boostCooldown;
-            spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, boostCooldownLeftPercent * .4f);
-            //GameObject.Find("Wand").GetComponent<SpriteRenderer>().enabled = false;
+            cooldownSprite.color = new Color(cooldownSprite.color.r, cooldownSprite.color.g, cooldownSprite.color.b, boostCooldownLeftPercent * .4f);
         }
         else
         {
             boostCooldownLeftPercent = 1;
-            spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 0);
-            //GameObject.Find("Wand").GetComponent<SpriteRenderer>().enabled = true;
+            cooldownSprite.color = new Color(cooldownSprite.color.r, cooldownSprite.color.g, cooldownSprite.color.b, 0);
         }
     }
-*/
+
 
 }
 
