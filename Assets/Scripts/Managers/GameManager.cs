@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 public class EventGameState : UnityEvent<GameManager.GameState, GameManager.GameState> { }
 public class EventLevelData : UnityEvent<string> { }
@@ -11,10 +12,8 @@ public class EventLevelData : UnityEvent<string> { }
 public class GameManager : Singleton<GameManager>
 {
     // keep track what level the game is currently in
-
     // keep track of game state
     // generate other persistent systems
-
 
 
     public GameObject[] systemPrefabs;
@@ -42,36 +41,72 @@ public class GameManager : Singleton<GameManager>
         private set { currentGameState = value; }
     }
 
+    public GameState previousGameState;
+
+    public bool debugMenuOn;
+
     public EventGameState OnGameStateChanged = new EventGameState();
     public EventLevelData OnLevelChanged = new EventLevelData();
-    
-    public GameObject scoreKeeper;
+
+    public ScoreKeeper scoreKeeper;
     public GameObject uiManager;
+    public PlayerManager playerManager;
 
+    private InputActions inputActions;
 
-
-
+    override public void Awake()
+    {
+        inputActions = new InputActions();
+        base.Awake();
+    }
 
     private void Start()
     {
+
         DontDestroyOnLoad(gameObject);
         instancedSystemPrefabs = new List<GameObject>();
         loadOperations = new List<AsyncOperation>();
         //InstantiateSystemPrefabs();
         CheckScenesInBuild();
-        UpdateGameState(GameState.PREGAME);
+        UpdateGameState(GameState.LEVELSTART);
+        CheckActiveScenes();
+
+        inputActions.UI.ToggleMenu.performed += _ => ToggleGamePaused();
 
     }
 
-    void UpdateGameState(GameState state)
+    private void OnEnable()
     {
-        GameState previousGameState = currentGameState;
+        inputActions.Enable();
+    }
+
+    private void OnDisable()
+    {
+        inputActions.Disable();
+    }
+
+    private void ToggleGamePaused()
+    {
+        if (CurrentGameState == GameState.RUNNING)
+        {
+            UpdateGameState(GameState.PAUSED);
+        }
+        else if (CurrentGameState == GameState.PAUSED)
+        {
+            UpdateGameState(GameState.RUNNING);
+        }
+
+    }
+
+    public void UpdateGameState(GameState state)
+    {
+        previousGameState = currentGameState;
         currentGameState = state;
 
         switch (currentGameState)
         {
             case GameState.PREGAME:
-                Time.timeScale = 0f;
+                Time.timeScale = 1f;
                 break;
 
             case GameState.RUNNING:
@@ -224,6 +259,7 @@ public class GameManager : Singleton<GameManager>
             if (SceneManager.GetSceneAt(i).name != "MainMenu")
             {
                 currentLevelName = SceneManager.GetSceneAt(i).name;
+                SceneManager.SetActiveScene(SceneManager.GetSceneByName(currentLevelName));
                 break;
             }
             else
@@ -243,7 +279,7 @@ public class GameManager : Singleton<GameManager>
 
         }
 
-        print(scenesInBuild.Count + " scenes are in the build");
+        //print(scenesInBuild.Count + " scenes are in the build");
     }
 
 }

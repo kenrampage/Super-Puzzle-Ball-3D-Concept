@@ -21,6 +21,8 @@ public class PlayerController : MonoBehaviour
     public Camera gameCamera;
     private Vector2 relativeMousePos;
     private Vector2 normalizedMousePos;
+    [SerializeField] LayerMask groundLayerMask;
+    public Vector2 groundPosition;
 
     private void Awake()
     {
@@ -31,10 +33,12 @@ public class PlayerController : MonoBehaviour
     {
         inputActions.Player.Click.performed += _ => BoostPlayer();
         SpriteRenderer cooldownSprite = cooldownOverlay.GetComponent<SpriteRenderer>();
+
     }
 
     private void OnEnable()
     {
+        gameCamera = Camera.main;
         inputActions.Enable();
     }
 
@@ -45,9 +49,8 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        // Set the variables for aiming at the mouse
         BoostCooldownEffect();
-        SetMouseDirection();
+        GetDistanceToGround();
     }
 
     // Calculates direction and angle between player and mouse
@@ -55,24 +58,25 @@ public class PlayerController : MonoBehaviour
     {
         relativeMousePos = gameCamera.ScreenToWorldPoint(inputActions.Player.MouseAim.ReadValue<Vector2>()) - transform.position;
         normalizedMousePos = relativeMousePos.normalized;
-        print(normalizedMousePos);
 
     }
 
     // Handles boosting player in the direction of the mouse plus setting and checking the cooldown
     public void BoostPlayer()
     {
-        //print("Boost!");
-
-
-        if (boostCooldownLeftPercent == 1)
+        if (GameManager.Instance.CurrentGameState == GameManager.GameState.RUNNING)
         {
-            playerRb.AddForce(normalizedMousePos * boostForce, ForceMode2D.Impulse);
-            boostNextFireTime = Time.time + boostCooldown;
-        }
-        else
-        {
-            print((boostNextFireTime - Time.time) + " Seconds Left on the boost cooldown");
+            SetMouseDirection();
+
+            if (boostCooldownLeftPercent == 1)
+            {
+                playerRb.AddForce(normalizedMousePos * boostForce, ForceMode2D.Impulse);
+                boostNextFireTime = Time.time + boostCooldown;
+            }
+            else
+            {
+                print((boostNextFireTime - Time.time) + " Seconds Left on the boost cooldown");
+            }
         }
 
     }
@@ -94,6 +98,29 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void GetDistanceToGround()
+    {
+        RaycastHit2D raycastHit = Physics2D.Raycast(transform.position, Vector2.down, Mathf.Infinity, groundLayerMask);
+
+        if (raycastHit.collider != null)
+            //print(raycastHit.collider.transform.position);
+
+            //print(raycastHit.distance);
+            groundPosition = new Vector2(transform.position.x, transform.position.y - raycastHit.distance);
+        //print(groundPosition);
+        Color rayColor = Color.red;
+        Debug.DrawRay(transform.position, Vector2.down * raycastHit.distance, rayColor);
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.transform.tag == "Target")
+        {
+            Destroy(other.gameObject);
+            GameManager.Instance.scoreKeeper.targetCount--;
+            GameManager.Instance.scoreKeeper.CheckTargetsRemaining();
+        }
+    }
 
 }
 

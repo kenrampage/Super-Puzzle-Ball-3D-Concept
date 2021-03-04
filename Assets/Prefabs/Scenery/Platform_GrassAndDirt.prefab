@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2983413319171351066}
   - component: {fileID: 2983413319171351069}
   - component: {fileID: 2983413319171351068}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Platform_GrassAndDirt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -80,8 +80,8 @@ SpriteShapeRenderer:
   m_Sprites:
   - {fileID: 21300000, guid: b31051e01b9112e40862a4f028b8c36e, type: 3}
   m_LocalAABB:
-    m_Center: {x: 0, y: 0, z: -0.00005}
-    m_Extent: {x: 8.5, y: 0.5, z: 0.00005}
+    m_Center: {x: 31.75, y: 0, z: -0.00005}
+    m_Extent: {x: 40.25, y: 0.5, z: 0.00005}
 --- !u!114 &2983413319171351069
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,10 +117,10 @@ MonoBehaviour:
       spriteIndex: 0
       corner: 1
       m_CornerMode: 1
-    - position: {x: 8, y: 0, z: 0}
-      leftTangent: {x: -2.647873, y: 0, z: 0}
+    - position: {x: 71.5, y: 0, z: 0}
+      leftTangent: {x: 0, y: 0, z: 0}
       rightTangent: {x: 0, y: 0, z: 0}
-      mode: 2
+      mode: 0
       height: 1
       bevelCutoff: 0
       bevelSize: 0
@@ -159,8 +159,8 @@ EdgeCollider2D:
   m_EdgeRadius: 0
   m_Points:
   - {x: -8.5, y: 0.38100004}
-  - {x: 8, y: 0.38100004}
-  - {x: 8.5, y: 0.38099998}
+  - {x: 71.5, y: 0.38100004}
+  - {x: 72, y: 0.38100004}
   m_AdjacentStartPoint: {x: 0, y: 0}
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0

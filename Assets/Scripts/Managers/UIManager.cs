@@ -3,53 +3,92 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.Events;
-using UnityEngine.InputSystem;
 
 public class UIManager : MonoBehaviour
 {
     public GameObject gameUICanvas;
     public GameObject mainMenuUICanvas;
     public GameObject uiOverlayCanvas;
+    public GameObject pauseOverlayCanvas;
 
-    private InputActions inputActions;
-
-    private void Awake()
-    {
-        inputActions = new InputActions();
-    }
 
     // Start is called before the first frame update
     void Start()
     {
         GameManager.Instance.OnGameStateChanged.AddListener(HandleGameStateChanged);
         GameManager.Instance.OnLevelChanged.AddListener(HandleLevelChanged);
-        inputActions.UI.ToggleMenu.performed += _ => ToggleMainMenuCanvas();
-    }
 
-    private void OnEnable()
-    {
-        inputActions.Enable();
-    }
-
-    private void OnDisable()
-    {
-        inputActions.Disable();
     }
 
     void HandleGameStateChanged(GameManager.GameState currentState, GameManager.GameState previousState)
     {
-        gameUICanvas.gameObject.SetActive(currentState == GameManager.GameState.LEVELSTART || currentState == GameManager.GameState.RUNNING);
+
+        switch (currentState)
+        {
+            case GameManager.GameState.PREGAME:
+                mainMenuUICanvas.gameObject.SetActive(true);
+                gameUICanvas.gameObject.SetActive(false);
+                pauseOverlayCanvas.gameObject.SetActive(false);
+                break;
+
+            case GameManager.GameState.RUNNING:
+                if (GameManager.Instance.debugMenuOn)
+                {
+                    mainMenuUICanvas.gameObject.SetActive(true);
+                }
+                else
+                {
+                    mainMenuUICanvas.gameObject.SetActive(false);
+                }
+
+                gameUICanvas.gameObject.SetActive(true);
+                pauseOverlayCanvas.gameObject.SetActive(false);
+                break;
+
+            case GameManager.GameState.PAUSED:
+                mainMenuUICanvas.gameObject.SetActive(true);
+                gameUICanvas.gameObject.SetActive(true);
+                pauseOverlayCanvas.gameObject.SetActive(true);
+                break;
+
+            case GameManager.GameState.LEVELSTART:
+                if (GameManager.Instance.debugMenuOn)
+                {
+                    mainMenuUICanvas.gameObject.SetActive(true);
+                }
+                else
+                {
+                    mainMenuUICanvas.gameObject.SetActive(false);
+                }
+                gameUICanvas.gameObject.SetActive(true);
+                pauseOverlayCanvas.gameObject.SetActive(false);
+                break;
+
+            case GameManager.GameState.LEVELEND:
+                if (GameManager.Instance.debugMenuOn)
+                {
+                    mainMenuUICanvas.gameObject.SetActive(true);
+                }
+                else
+                {
+                    mainMenuUICanvas.gameObject.SetActive(false);
+                }
+                gameUICanvas.gameObject.SetActive(true);
+                pauseOverlayCanvas.gameObject.SetActive(false);
+                break;
+
+            default:
+                mainMenuUICanvas.gameObject.SetActive(true);
+                gameUICanvas.gameObject.SetActive(false);
+                pauseOverlayCanvas.gameObject.SetActive(false);
+                break;
+        }
+
     }
 
     void HandleLevelChanged(string currentLevel)
     {
         gameUICanvas.transform.Find("CurrentLevelText").GetComponent<TextMeshProUGUI>().text = "Level: " + currentLevel;
-    }
-
-    void ToggleMainMenuCanvas()
-    {
-        print("ToggleMenu Performed");
-        mainMenuUICanvas.SetActive(!mainMenuUICanvas.activeSelf);
     }
 
 }
