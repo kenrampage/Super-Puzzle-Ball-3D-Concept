@@ -41,7 +41,7 @@ public class GameManager : Singleton<GameManager>
         private set { currentGameState = value; }
     }
 
-    public GameState previousGameState;
+    private GameState previousGameState;
 
     public bool debugMenuOn;
 
@@ -49,7 +49,7 @@ public class GameManager : Singleton<GameManager>
     public EventLevelData OnLevelChanged = new EventLevelData();
 
     public ScoreKeeper scoreKeeper;
-    public GameObject uiManager;
+    public UIManager uiManager;
     public PlayerManager playerManager;
 
     private InputActions inputActions;
@@ -68,7 +68,7 @@ public class GameManager : Singleton<GameManager>
         loadOperations = new List<AsyncOperation>();
         //InstantiateSystemPrefabs();
         CheckScenesInBuild();
-        UpdateGameState(GameState.LEVELSTART);
+        UpdateGameState(GameState.PREGAME);
         CheckActiveScenes();
 
         inputActions.UI.ToggleMenu.performed += _ => ToggleGamePaused();
@@ -106,7 +106,7 @@ public class GameManager : Singleton<GameManager>
         switch (currentGameState)
         {
             case GameState.PREGAME:
-                Time.timeScale = 1f;
+                Time.timeScale = 0f;
                 break;
 
             case GameState.RUNNING:
@@ -126,7 +126,7 @@ public class GameManager : Singleton<GameManager>
                 break;
 
             default:
-                Time.timeScale = 1f;
+                Time.timeScale = 0f;
                 break;
         }
 
@@ -147,6 +147,7 @@ public class GameManager : Singleton<GameManager>
         }
 
         //Debug.Log("Load Complete");
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName(currentLevelName));
         UpdateGameState(GameState.LEVELSTART);
     }
 
@@ -173,7 +174,12 @@ public class GameManager : Singleton<GameManager>
             ao.completed += OnLoadOperationComplete;
 
             currentLevelName = levelName;
-            OnLevelChanged.Invoke(currentLevelName);
+
+            if (OnLevelChanged != null)
+            {
+                OnLevelChanged.Invoke(currentLevelName);
+            }
+
         }
         else
         {

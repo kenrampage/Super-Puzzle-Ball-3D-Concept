@@ -118,7 +118,7 @@ public class PlayerController : MonoBehaviour
         {
             Destroy(other.gameObject);
             GameManager.Instance.scoreKeeper.targetCount--;
-            GameManager.Instance.scoreKeeper.CheckTargetsRemaining();
+            GameManager.Instance.scoreKeeper.PrintTargetsRemaining();
         }
     }
 

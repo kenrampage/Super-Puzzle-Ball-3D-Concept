@@ -18,7 +18,7 @@ public class PlayerManager : MonoBehaviour
 
     private void Start()
     {
-        playerIsActive = false;
+        CheckPlayerActive();
         FindSpawnPoint();
     }
 
@@ -29,22 +29,46 @@ public class PlayerManager : MonoBehaviour
 
     public void SpawnPlayer()
     {
-        if (!playerIsActive)
-        {
-            playerIsActive = true;
-            playerObject = Instantiate(playerPrefab, spawnPoint.transform.position, playerPrefab.transform.rotation);
-            GameManager.Instance.UpdateGameState(GameManager.GameState.RUNNING);
+        CheckPlayerActive();
+        FindSpawnPoint();
 
-            if (OnPlayerIsActiveChanged != null)
+        if (spawnPoint != null)
+        {
+            if (!playerIsActive)
             {
-                OnPlayerIsActiveChanged.Invoke(playerObject);
+                playerIsActive = true;
+                playerObject = Instantiate(playerPrefab, spawnPoint.transform.position, playerPrefab.transform.rotation);
+                GameManager.Instance.UpdateGameState(GameManager.GameState.RUNNING);
+
+                if (OnPlayerIsActiveChanged != null)
+                {
+                    OnPlayerIsActiveChanged.Invoke(playerObject);
+                }
+            }
+            else
+            {
+                print("Player Already active!");
             }
         }
         else
         {
-            print("Player Already active!");
+            print("Spawn Point can't be found!");
         }
 
+
+    }
+
+    public void CheckPlayerActive()
+    {
+        if (GameObject.FindGameObjectWithTag("Player") != null)
+        {
+            playerObject = GameObject.FindGameObjectWithTag("Player");
+            playerIsActive = true;
+        }
+        else
+        {
+            playerIsActive = false;
+        }
     }
 
 

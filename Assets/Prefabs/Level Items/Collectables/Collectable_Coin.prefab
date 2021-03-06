@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 103590619401943110}
   - component: {fileID: 103590619401943111}
   - component: {fileID: 103590619401943112}
+  - component: {fileID: 2022813090917498533}
   m_Layer: 0
   m_Name: Collectable_Coin
   m_TagString: Untagged
@@ -72,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2996951919824476368, guid: f3affff6472c00049ad829c0c9243b88, type: 3}
+  m_Sprite: {fileID: -7308794345194866461, guid: 0aaaf6a6f18348b44bd2e1a0a2b2ce8a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -109,3 +110,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!111 &2022813090917498533
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 103590619401943113}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: b90d85cd85cd199448a9679e4ab28f8f, type: 2}
+  m_Animations: []
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0

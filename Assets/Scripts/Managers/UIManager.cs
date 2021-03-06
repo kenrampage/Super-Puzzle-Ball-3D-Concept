@@ -10,6 +10,8 @@ public class UIManager : MonoBehaviour
     public GameObject mainMenuUICanvas;
     public GameObject uiOverlayCanvas;
     public GameObject pauseOverlayCanvas;
+    public GameObject levelStartCanvas;
+    public GameObject levelEndCanvas;
 
 
     // Start is called before the first frame update
@@ -29,9 +31,12 @@ public class UIManager : MonoBehaviour
                 mainMenuUICanvas.gameObject.SetActive(true);
                 gameUICanvas.gameObject.SetActive(false);
                 pauseOverlayCanvas.gameObject.SetActive(false);
+                levelStartCanvas.gameObject.SetActive(false);
+                levelEndCanvas.gameObject.SetActive(false);
                 break;
 
             case GameManager.GameState.RUNNING:
+
                 if (GameManager.Instance.debugMenuOn)
                 {
                     mainMenuUICanvas.gameObject.SetActive(true);
@@ -40,28 +45,26 @@ public class UIManager : MonoBehaviour
                 {
                     mainMenuUICanvas.gameObject.SetActive(false);
                 }
-
                 gameUICanvas.gameObject.SetActive(true);
                 pauseOverlayCanvas.gameObject.SetActive(false);
+                levelStartCanvas.gameObject.SetActive(false);
+                levelEndCanvas.gameObject.SetActive(false);
                 break;
 
             case GameManager.GameState.PAUSED:
                 mainMenuUICanvas.gameObject.SetActive(true);
                 gameUICanvas.gameObject.SetActive(true);
                 pauseOverlayCanvas.gameObject.SetActive(true);
+                levelStartCanvas.gameObject.SetActive(false);
+                levelEndCanvas.gameObject.SetActive(false);
                 break;
 
             case GameManager.GameState.LEVELSTART:
-                if (GameManager.Instance.debugMenuOn)
-                {
-                    mainMenuUICanvas.gameObject.SetActive(true);
-                }
-                else
-                {
-                    mainMenuUICanvas.gameObject.SetActive(false);
-                }
-                gameUICanvas.gameObject.SetActive(true);
+                mainMenuUICanvas.gameObject.SetActive(false);
+                gameUICanvas.gameObject.SetActive(false);
                 pauseOverlayCanvas.gameObject.SetActive(false);
+                levelStartCanvas.gameObject.SetActive(true);
+                levelEndCanvas.gameObject.SetActive(false);
                 break;
 
             case GameManager.GameState.LEVELEND:
@@ -73,22 +76,37 @@ public class UIManager : MonoBehaviour
                 {
                     mainMenuUICanvas.gameObject.SetActive(false);
                 }
-                gameUICanvas.gameObject.SetActive(true);
+                gameUICanvas.gameObject.SetActive(false);
                 pauseOverlayCanvas.gameObject.SetActive(false);
+                levelEndCanvas.gameObject.SetActive(true);
                 break;
 
             default:
                 mainMenuUICanvas.gameObject.SetActive(true);
                 gameUICanvas.gameObject.SetActive(false);
                 pauseOverlayCanvas.gameObject.SetActive(false);
+                levelStartCanvas.gameObject.SetActive(false);
+                levelEndCanvas.gameObject.SetActive(false);
                 break;
         }
 
     }
 
-    void HandleLevelChanged(string currentLevel)
+    void HandleLevelChanged(string newLevel)
     {
-        gameUICanvas.transform.Find("CurrentLevelText").GetComponent<TextMeshProUGUI>().text = "Level: " + currentLevel;
+        gameUICanvas.transform.Find("CurrentLevelText").GetComponent<TextMeshProUGUI>().text = "Level: " + newLevel;
+    }
+
+    public void ToggleMainMenuUI()
+    {
+        if (mainMenuUICanvas.activeSelf)
+        {
+            mainMenuUICanvas.gameObject.SetActive(false);
+        }
+        else 
+        { 
+            mainMenuUICanvas.gameObject.SetActive(true);
+        }
     }
 
 }

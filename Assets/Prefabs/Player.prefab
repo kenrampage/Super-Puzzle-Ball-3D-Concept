@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4745839067067392432}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -100,7 +100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerRb: {fileID: 4745839067067392436}
   boostForce: 7
-  boostCooldown: 1
+  boostCooldown: 0.75
   cooldownOverlay: {fileID: 4745839067695775969}
   cooldownSprite: {fileID: 4745839067695775971}
   gameCamera: {fileID: 0}
