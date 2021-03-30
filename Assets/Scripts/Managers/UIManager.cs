@@ -23,6 +23,7 @@ public class UIManager : MonoBehaviour
 
     }
 
+    // toggles various UI elements based on gamestate. Is there a better way to do this?
     void HandleGameStateChanged(SO_SessionData.GameState currentState, SO_SessionData.GameState previousState)
     {
 

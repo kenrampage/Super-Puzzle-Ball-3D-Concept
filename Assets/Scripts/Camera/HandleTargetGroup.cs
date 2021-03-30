@@ -6,6 +6,8 @@ using Cinemachine;
 public class HandleTargetGroup : MonoBehaviour
 {
     public SO_SessionData sessionData;
+    public float targetWeight;
+    public float targetRadius;
     CinemachineTargetGroup targetGroup;
 
     private void Start()
@@ -16,32 +18,33 @@ public class HandleTargetGroup : MonoBehaviour
 
     }
 
-    public void UpdateTargetGroup(GameObject playerObject)
+    // Removes the spawnpoint from the cinemachine target group and adds the player object
+    public void UpdateTargetGroup()
     {
         GameObject spawnPoint = GameManager.Instance.spawnPoint;
-        float spawnPointWeight = targetGroup.m_Targets[targetGroup.FindMember(spawnPoint.transform)].weight;
-        float spawnPointRadius = targetGroup.m_Targets[targetGroup.FindMember(spawnPoint.transform)].radius;     
-           
-        targetGroup.RemoveMember(GameManager.Instance.spawnPoint.transform);
-        targetGroup.AddMember(playerObject.transform, spawnPointWeight, spawnPointRadius);
+        GameObject playerObject = GameManager.Instance.playerObject;
+
+        targetGroup.RemoveMember(spawnPoint.transform);
+        targetGroup.AddMember(playerObject.transform, targetWeight, targetRadius);
 
     }
 
+    // Assigns the Cinemachine targetgroup primary target based on player state
     public void HandlePlayerStateChanged(SO_SessionData.PlayerState currentPlayerState, SO_SessionData.PlayerState previousPlayerState)
     {
         switch (currentPlayerState)
         {
             case SO_SessionData.PlayerState.INACTIVE:
-
+                
                 break;
 
             case SO_SessionData.PlayerState.SPAWNING:
-                
+
 
                 break;
 
             case SO_SessionData.PlayerState.ACTIVE:
-                UpdateTargetGroup(GameManager.Instance.playerObject);
+                UpdateTargetGroup();
                 break;
 
             case SO_SessionData.PlayerState.DESPAWNING:

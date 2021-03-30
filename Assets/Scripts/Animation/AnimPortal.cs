@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+// Opens portal when player is spawning then closes it again once the player is spawned/active
 
 public class AnimPortal : MonoBehaviour
 {
@@ -14,7 +15,6 @@ public class AnimPortal : MonoBehaviour
 
     private void Start()
     {
-        sessionData.OnGameStateChanged.AddListener(HandleGameStateChanged);
         sessionData.OnPlayerStateChanged.AddListener(HandlePlayerStateChanged);
     }
 
@@ -27,36 +27,6 @@ public class AnimPortal : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(portalCloseDelay);
         animator.SetBool("IsOpen", false);
-    }
-
-    public void HandleGameStateChanged(SO_SessionData.GameState currentGameState, SO_SessionData.GameState previousGameState)
-    {
-        switch (currentGameState)
-        {
-            case SO_SessionData.GameState.PREGAME:
-
-                break;
-
-            case SO_SessionData.GameState.RUNNING:
-
-                break;
-
-            case SO_SessionData.GameState.PAUSED:
-
-                break;
-
-            case SO_SessionData.GameState.LEVELSTART:
-                
-                break;
-
-            case SO_SessionData.GameState.LEVELEND:
-
-                break;
-
-            default:
-
-                break;
-        }
     }
 
     public void HandlePlayerStateChanged(SO_SessionData.PlayerState currentPlayerState, SO_SessionData.PlayerState previousPlayerState)

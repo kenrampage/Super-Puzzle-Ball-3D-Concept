@@ -67,6 +67,7 @@ public class SO_SessionData : ScriptableObject
         levelTimer = 0f;
     }
 
+    // sets the index of the current level within the current level set
     public void SetCurrentLevelSetIndex(int i)
     {
         currentLevelSetIndex = i;

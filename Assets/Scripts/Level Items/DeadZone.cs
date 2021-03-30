@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SoftCeiling : MonoBehaviour
+public class DeadZone : MonoBehaviour
 {
 
     private SpriteRenderer spriteRenderer;

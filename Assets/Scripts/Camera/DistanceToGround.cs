@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// Calculates the distance to the closest object below this one that's in the ground layer mask.
+
 public class DistanceToGround : MonoBehaviour
 {
     public Vector2 groundPosition;
