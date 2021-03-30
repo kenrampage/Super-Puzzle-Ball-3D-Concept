@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af7181f404f1447c0a7a17b3070b952b, type: 3}
+  m_Name: Wood_box
+  m_EditorClassIdentifier: 
+  m_Angles:
+  - m_Start: -90
+    m_End: 90
+    m_Order: 1
+    m_Sprites:
+    - {fileID: 21300000, guid: 3677d64a890f7934085bc057764fe79c, type: 3}
+    - {fileID: 0}
+  - m_Start: 90
+    m_End: 270
+    m_Order: 0
+    m_Sprites:
+    - {fileID: 21300000, guid: 3677d64a890f7934085bc057764fe79c, type: 3}
+    - {fileID: 0}
+  m_FillTexture: {fileID: 2800000, guid: c654d7ba8a4baa246b8721261e01dd53, type: 3}
+  m_CornerSprites:
+  - m_CornerType: 0
+    m_Sprites:
+    - {fileID: 21300000, guid: 1c5f1e33682be7f45b0dab87984bc8ac, type: 3}
+  - m_CornerType: 1
+    m_Sprites:
+    - {fileID: 21300000, guid: d64b14c9e7db75046ae4a95c38551e15, type: 3}
+  - m_CornerType: 2
+    m_Sprites:
+    - {fileID: 21300000, guid: 3fcfd21e557af4840aece87ac190142a, type: 3}
+  - m_CornerType: 3
+    m_Sprites:
+    - {fileID: 21300000, guid: 797ded990edabcc4a95bc29705d2441b, type: 3}
+  - m_CornerType: 4
+    m_Sprites:
+    - {fileID: 0}
+  - m_CornerType: 5
+    m_Sprites:
+    - {fileID: 0}
+  - m_CornerType: 6
+    m_Sprites:
+    - {fileID: 0}
+  - m_CornerType: 7
+    m_Sprites:
+    - {fileID: 0}
+  m_FillOffset: 0.028
+  m_UseSpriteBorders: 1

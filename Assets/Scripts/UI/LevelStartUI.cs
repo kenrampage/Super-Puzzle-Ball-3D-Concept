@@ -5,6 +5,7 @@ using TMPro;
 
 public class LevelStartUI : MonoBehaviour
 {
+    public SO_SessionData sessionData;
     public TextMeshProUGUI currentLevelText;
 
     private void OnEnable()
@@ -14,7 +15,7 @@ public class LevelStartUI : MonoBehaviour
 
     private void UpdateCurrentLevelText()
     {
-        currentLevelText.text = GameManager.Instance.currentLevelName;
+        currentLevelText.text = sessionData.currentLevelName;
     }
 
 }

@@ -4,17 +4,18 @@ using UnityEngine;
 
 public class GroundCameraTarget : MonoBehaviour
 {
+    public SO_SessionData sessionData;
 
     private void FixedUpdate()
     {
-        if (GameManager.Instance.playerManager.playerIsActive)
+        if (sessionData.CurrentPlayerState == SO_SessionData.PlayerState.ACTIVE)
         {
             
-            transform.position = GameManager.Instance.playerManager.playerObject.GetComponent<PlayerController>().groundPosition;
+            transform.position = GameManager.Instance.playerObject.GetComponent<PlayerController>().groundPosition;
         }
         else
         {
-            transform.position = GameObject.Find("SpawnPoint").GetComponent<DistanceToGround>().groundPosition;
+            transform.position = GameManager.Instance.spawnPoint.GetComponent<DistanceToGround>().groundPosition;
         }
     }
 

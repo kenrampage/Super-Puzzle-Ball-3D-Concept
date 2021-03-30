@@ -18,7 +18,7 @@ public class RotateFanBlades : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         fanBlades.transform.Rotate(0, 0, rotateSpeed);
     }

@@ -5,74 +5,68 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
-public class EventGameState : UnityEvent<GameManager.GameState, GameManager.GameState> { }
+
 public class EventLevelData : UnityEvent<string> { }
 
 
 public class GameManager : Singleton<GameManager>
 {
-    // keep track what level the game is currently in
-    // keep track of game state
-    // generate other persistent systems
-
+    public SO_SessionData sessionData;
 
     public GameObject[] systemPrefabs;
     private List<GameObject> instancedSystemPrefabs;
 
-    public string currentLevelName = string.Empty;
     List<AsyncOperation> loadOperations;
 
-    private int sceneCount;
-    public List<string> scenesInBuild = new List<string>();
-
-    public enum GameState
-    {
-        PREGAME,
-        RUNNING,
-        PAUSED,
-        LEVELSTART,
-        LEVELEND,
-    }
-
-    private GameState currentGameState;
-    public GameState CurrentGameState
-    {
-        get { return currentGameState; }
-        private set { currentGameState = value; }
-    }
-
-    private GameState previousGameState;
-
-    public bool debugMenuOn;
-
-    public EventGameState OnGameStateChanged = new EventGameState();
     public EventLevelData OnLevelChanged = new EventLevelData();
 
-    public ScoreKeeper scoreKeeper;
+    public bool debugMenuOn;
     public UIManager uiManager;
-    public PlayerManager playerManager;
+    // public PlayerManager playerManager;
 
     private InputActions inputActions;
 
+    public List<GameObject> targetsList = new List<GameObject>();
+    public int targetCount;
+
+    public GameObject playerPrefab;
+    public float spawnDelay;
+
+
+    [HideInInspector] public GameObject playerObject;
+    [HideInInspector] public GameObject spawnPoint;
+
     override public void Awake()
     {
-        inputActions = new InputActions();
         base.Awake();
+        inputActions = new InputActions();
+        DontDestroyOnLoad(gameObject);
+
     }
 
     private void Start()
     {
-
-        DontDestroyOnLoad(gameObject);
         instancedSystemPrefabs = new List<GameObject>();
         loadOperations = new List<AsyncOperation>();
         //InstantiateSystemPrefabs();
-        CheckScenesInBuild();
-        UpdateGameState(GameState.PREGAME);
+        sessionData.UpdateGameState(SO_SessionData.GameState.PREGAME);
+        sessionData.UpdatePlayerState(SO_SessionData.PlayerState.INACTIVE);
         CheckActiveScenes();
 
+        sessionData.OnGameStateChanged.AddListener(HandleGameStateChanged);
+        sessionData.OnPlayerStateChanged.AddListener(HandlePlayerStateChanged);
         inputActions.UI.ToggleMenu.performed += _ => ToggleGamePaused();
+        sessionData.ResetTimer();
+        FindSpawnPoint();
 
+    }
+
+    private void Update()
+    {
+        if (sessionData.timerIsActive)
+        {
+            sessionData.levelTimer += Time.deltaTime;
+        }
     }
 
     private void OnEnable()
@@ -87,57 +81,16 @@ public class GameManager : Singleton<GameManager>
 
     private void ToggleGamePaused()
     {
-        if (CurrentGameState == GameState.RUNNING)
+        if (sessionData.CurrentGameState == SO_SessionData.GameState.RUNNING)
         {
-            UpdateGameState(GameState.PAUSED);
+            sessionData.UpdateGameState(SO_SessionData.GameState.PAUSED);
         }
-        else if (CurrentGameState == GameState.PAUSED)
+        else if (sessionData.CurrentGameState == SO_SessionData.GameState.PAUSED)
         {
-            UpdateGameState(GameState.RUNNING);
-        }
-
-    }
-
-    public void UpdateGameState(GameState state)
-    {
-        previousGameState = currentGameState;
-        currentGameState = state;
-
-        switch (currentGameState)
-        {
-            case GameState.PREGAME:
-                Time.timeScale = 0f;
-                break;
-
-            case GameState.RUNNING:
-                Time.timeScale = 1f;
-                break;
-
-            case GameState.PAUSED:
-                Time.timeScale = 0f;
-                break;
-
-            case GameState.LEVELSTART:
-                Time.timeScale = 0f;
-                break;
-
-            case GameState.LEVELEND:
-                Time.timeScale = 0f;
-                break;
-
-            default:
-                Time.timeScale = 0f;
-                break;
-        }
-
-        print("Current GameState: " + currentGameState);
-        if (OnGameStateChanged != null)
-        {
-            OnGameStateChanged.Invoke(currentGameState, previousGameState);
+            sessionData.UpdateGameState(SO_SessionData.GameState.RUNNING);
         }
 
     }
-
 
     private void OnLoadOperationComplete(AsyncOperation ao)
     {
@@ -147,21 +100,21 @@ public class GameManager : Singleton<GameManager>
         }
 
         //Debug.Log("Load Complete");
-        SceneManager.SetActiveScene(SceneManager.GetSceneByName(currentLevelName));
-        UpdateGameState(GameState.LEVELSTART);
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName(sessionData.currentLevelName));
+        sessionData.UpdateGameState(SO_SessionData.GameState.LEVELSTART);
     }
 
     private void OnUnloadOperationComplete(AsyncOperation ao)
     {
         //Debug.Log("Unload Complete");
-        UpdateGameState(GameState.PREGAME);
+        sessionData.UpdateGameState(SO_SessionData.GameState.PREGAME);
     }
 
     public void LoadLevel(string levelName)
     {
         CheckActiveScenes();
 
-        if (currentLevelName == string.Empty)
+        if (sessionData.currentLevelName == string.Empty)
         {
             AsyncOperation ao = SceneManager.LoadSceneAsync(levelName, LoadSceneMode.Additive);
             if (ao == null)
@@ -173,36 +126,21 @@ public class GameManager : Singleton<GameManager>
             loadOperations.Add(ao);
             ao.completed += OnLoadOperationComplete;
 
-            currentLevelName = levelName;
+            sessionData.currentLevelName = levelName;
+        }
+        else if (sessionData.currentLevelName == levelName)
+        {
 
-            if (OnLevelChanged != null)
-            {
-                OnLevelChanged.Invoke(currentLevelName);
-            }
-
+            sessionData.UpdateGameState(SO_SessionData.GameState.LEVELSTART);
+            print(levelName + " is already loaded. Changed GameState to LEVELSTART");
         }
         else
         {
-            print(currentLevelName + " is already loaded. Unload the current scene before loading a new one");
+            print(sessionData.currentLevelName + " already loaded. Unload the current level before trying to load a new one");
         }
     }
 
 
-
-    public void LoadLevelByIndex(int buildIndex)
-    {
-        AsyncOperation ao = SceneManager.LoadSceneAsync(buildIndex, LoadSceneMode.Additive);
-        if (ao == null)
-        {
-            Debug.Log("[GameManager] unable to load level " + SceneManager.GetSceneByBuildIndex(buildIndex).name);
-            return;
-        }
-
-        loadOperations.Add(ao);
-        ao.completed += OnLoadOperationComplete;
-
-        currentLevelName = SceneManager.GetSceneByBuildIndex(buildIndex).name;
-    }
 
     public void UnloadLevel(string levelName)
     {
@@ -215,16 +153,17 @@ public class GameManager : Singleton<GameManager>
 
         ao.completed += OnUnloadOperationComplete;
 
-        currentLevelName = string.Empty;
+        sessionData.currentLevelName = string.Empty;
     }
 
     public void UnloadCurrentLevel()
     {
         CheckActiveScenes();
 
-        if (currentLevelName != string.Empty)
+        if (sessionData.currentLevelName != string.Empty)
         {
-            UnloadLevel(currentLevelName);
+            UnloadLevel(sessionData.currentLevelName);
+            sessionData.currentLevelName = string.Empty;
         }
         else
         {
@@ -264,28 +203,182 @@ public class GameManager : Singleton<GameManager>
         {
             if (SceneManager.GetSceneAt(i).name != "MainMenu")
             {
-                currentLevelName = SceneManager.GetSceneAt(i).name;
-                SceneManager.SetActiveScene(SceneManager.GetSceneByName(currentLevelName));
+                sessionData.currentLevelName = SceneManager.GetSceneAt(i).name;
+                SceneManager.SetActiveScene(SceneManager.GetSceneByName(sessionData.currentLevelName));
                 break;
             }
             else
             {
-                currentLevelName = string.Empty;
+                sessionData.currentLevelName = string.Empty;
             }
         }
     }
 
-    public void CheckScenesInBuild()
+
+    public void InitializeLevel()
     {
-        sceneCount = SceneManager.sceneCountInBuildSettings;
-
-        for (int i = 0; i < sceneCount; i++)
+        if (sessionData.CurrentGameState == SO_SessionData.GameState.PREGAME && sessionData.currentLevelName != null)
         {
-            scenesInBuild.Add(System.IO.Path.GetFileNameWithoutExtension(SceneUtility.GetScenePathByBuildIndex(i)));
-
+            sessionData.UpdateGameState(SO_SessionData.GameState.LEVELSTART);
+        }
+        else
+        {
+            print("Level Already Initialized!");
         }
 
-        //print(scenesInBuild.Count + " scenes are in the build");
     }
+
+    public void StartLevel()
+    {
+        if (sessionData.currentLevelName != null && sessionData.CurrentGameState == SO_SessionData.GameState.LEVELSTART)
+        {
+            sessionData.UpdateGameState(SO_SessionData.GameState.RUNNING);
+        }
+        else
+        {
+            print("Level not loaded or GameState isn't LEVELSTART");
+        }
+
+    }
+
+    public void BuildTargetsList()
+    {
+        ResetTargetsList();
+
+        foreach (GameObject targetObject in GameObject.FindGameObjectsWithTag("Target"))
+        {
+            targetsList.Add(targetObject);
+        }
+
+        targetCount = targetsList.Count;
+        print(targetsList.Count + " objects on the Targets list");
+    }
+
+    public void ResetTargetsList()
+    {
+        targetsList.Clear();
+        targetCount = 0;
+    }
+
+    public void RemoveTarget(GameObject target)
+    {
+        targetsList.Remove(target);
+        CheckTargetsRemaining();
+    }
+
+    public void CheckTargetsRemaining()
+    {
+        targetCount = targetsList.Count;
+        print(targetCount + " targets remaining");
+        if (targetCount == 0)
+        {
+            sessionData.UpdateGameState(SO_SessionData.GameState.LEVELEND);
+        }
+    }
+
+    public void HandleGameStateChanged(SO_SessionData.GameState currentGameState, SO_SessionData.GameState previousGameState)
+    {
+        switch (currentGameState)
+        {
+            case SO_SessionData.GameState.PREGAME:
+
+                break;
+
+            case SO_SessionData.GameState.RUNNING:
+                if (previousGameState == SO_SessionData.GameState.LEVELSTART)
+                    sessionData.UpdatePlayerState(SO_SessionData.PlayerState.SPAWNING);
+                break;
+
+            case SO_SessionData.GameState.PAUSED:
+
+                break;
+
+            case SO_SessionData.GameState.LEVELSTART:
+                BuildTargetsList();
+                break;
+
+            case SO_SessionData.GameState.LEVELEND:
+                sessionData.UpdatePlayerState(SO_SessionData.PlayerState.DESPAWNING);
+                break;
+
+            default:
+
+                break;
+        }
+
+    }
+
+    public void HandlePlayerStateChanged(SO_SessionData.PlayerState currentPlayerState, SO_SessionData.PlayerState previousPlayerState)
+    {
+        switch (currentPlayerState)
+        {
+            case SO_SessionData.PlayerState.INACTIVE:
+                Destroy(playerObject);
+                break;
+
+            case SO_SessionData.PlayerState.SPAWNING:
+                StartCoroutine(SpawnPlayer());
+                break;
+
+            case SO_SessionData.PlayerState.ACTIVE:
+                break;
+
+            case SO_SessionData.PlayerState.DESPAWNING:
+
+                break;
+
+            default:
+
+                break;
+        }
+    }
+
+    public void FindSpawnPoint()
+    {
+        spawnPoint = GameObject.Find("SpawnPoint");
+    }
+
+    public IEnumerator SpawnPlayer()
+    {
+        FindSpawnPoint();
+        yield return new WaitForSecondsRealtime(spawnDelay);
+
+        if (spawnPoint != null && playerObject == null)
+        {
+            if (sessionData.CurrentPlayerState == SO_SessionData.PlayerState.SPAWNING)
+            {
+
+                playerObject = Instantiate(playerPrefab, spawnPoint.transform.position, playerPrefab.transform.rotation);
+                sessionData.UpdatePlayerState(SO_SessionData.PlayerState.ACTIVE);
+
+            }
+            else
+            {
+                print("PlayerState must be set to SPAWNING to spawn player. Current Player State is: " + sessionData.CurrentPlayerState);
+            }
+        }
+        else
+        {
+            print("Spawn Point can't be found!");
+        }
+
+    }
+
+
+    public void CheckPlayerActive()
+    {
+        if (GameObject.FindGameObjectWithTag("Player") != null)
+        {
+            playerObject = GameObject.FindGameObjectWithTag("Player");
+            sessionData.UpdatePlayerState(SO_SessionData.PlayerState.ACTIVE);
+        }
+        else
+        {
+            playerObject = null;
+            sessionData.UpdatePlayerState(SO_SessionData.PlayerState.INACTIVE);
+        }
+
+    }
+
 
 }

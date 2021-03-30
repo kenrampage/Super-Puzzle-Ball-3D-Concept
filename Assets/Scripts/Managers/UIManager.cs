@@ -6,6 +6,7 @@ using UnityEngine.Events;
 
 public class UIManager : MonoBehaviour
 {
+    public SO_SessionData sessionData;
     public GameObject gameUICanvas;
     public GameObject mainMenuUICanvas;
     public GameObject uiOverlayCanvas;
@@ -17,17 +18,17 @@ public class UIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GameManager.Instance.OnGameStateChanged.AddListener(HandleGameStateChanged);
+        sessionData.OnGameStateChanged.AddListener(HandleGameStateChanged);
         GameManager.Instance.OnLevelChanged.AddListener(HandleLevelChanged);
 
     }
 
-    void HandleGameStateChanged(GameManager.GameState currentState, GameManager.GameState previousState)
+    void HandleGameStateChanged(SO_SessionData.GameState currentState, SO_SessionData.GameState previousState)
     {
 
         switch (currentState)
         {
-            case GameManager.GameState.PREGAME:
+            case SO_SessionData.GameState.PREGAME:
                 mainMenuUICanvas.gameObject.SetActive(true);
                 gameUICanvas.gameObject.SetActive(false);
                 pauseOverlayCanvas.gameObject.SetActive(false);
@@ -35,7 +36,7 @@ public class UIManager : MonoBehaviour
                 levelEndCanvas.gameObject.SetActive(false);
                 break;
 
-            case GameManager.GameState.RUNNING:
+            case SO_SessionData.GameState.RUNNING:
 
                 if (GameManager.Instance.debugMenuOn)
                 {
@@ -51,7 +52,7 @@ public class UIManager : MonoBehaviour
                 levelEndCanvas.gameObject.SetActive(false);
                 break;
 
-            case GameManager.GameState.PAUSED:
+            case SO_SessionData.GameState.PAUSED:
                 mainMenuUICanvas.gameObject.SetActive(true);
                 gameUICanvas.gameObject.SetActive(true);
                 pauseOverlayCanvas.gameObject.SetActive(true);
@@ -59,7 +60,7 @@ public class UIManager : MonoBehaviour
                 levelEndCanvas.gameObject.SetActive(false);
                 break;
 
-            case GameManager.GameState.LEVELSTART:
+            case SO_SessionData.GameState.LEVELSTART:
                 mainMenuUICanvas.gameObject.SetActive(false);
                 gameUICanvas.gameObject.SetActive(false);
                 pauseOverlayCanvas.gameObject.SetActive(false);
@@ -67,7 +68,7 @@ public class UIManager : MonoBehaviour
                 levelEndCanvas.gameObject.SetActive(false);
                 break;
 
-            case GameManager.GameState.LEVELEND:
+            case SO_SessionData.GameState.LEVELEND:
                 if (GameManager.Instance.debugMenuOn)
                 {
                     mainMenuUICanvas.gameObject.SetActive(true);
@@ -107,6 +108,11 @@ public class UIManager : MonoBehaviour
         { 
             mainMenuUICanvas.gameObject.SetActive(true);
         }
+    }
+
+    void UpdateLevelText()
+    {
+        gameUICanvas.transform.Find("CurrentLevelText").GetComponent<TextMeshProUGUI>().text = sessionData.currentLevelName;
     }
 
 }
