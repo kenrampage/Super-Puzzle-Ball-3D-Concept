@@ -5,13 +5,13 @@ using TMPro;
 
 public class LoadLevelButton : MonoBehaviour
 {
-    public SO_SessionData sessionData;
+    public SessionDataSO sessionData;
 
     public void LoadButtonClicked()
     {
-        GameManager.Instance.LoadLevel(sessionData.nextLevelName);
-        sessionData.currentLevelName = sessionData.nextLevelName;
-        sessionData.nextLevelName = string.Empty;
+        // GameManager.Instance.LoadLevel(sessionData.nextLevelName);
+        // sessionData.currentLevelName = sessionData.nextLevelName;
+        // sessionData.nextLevelName = string.Empty;
     }
 
 }

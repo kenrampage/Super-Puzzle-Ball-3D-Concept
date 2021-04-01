@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class EventGameState : UnityEvent<SO_SessionData.GameState, SO_SessionData.GameState> { }
-public class EventPlayerState : UnityEvent<SO_SessionData.PlayerState, SO_SessionData.PlayerState> { }
+public class EventGameState : UnityEvent<SessionDataSO.GameState, SessionDataSO.GameState> { }
+public class EventPlayerState : UnityEvent<SessionDataSO.PlayerState, SessionDataSO.PlayerState> { }
 
 [CreateAssetMenu(fileName = "SessionData", menuName = "Scriptable Objects/SessionData")]
-public class SO_SessionData : ScriptableObject
+public class SessionDataSO : ScriptableObject
 
 {
-    public int currentLevelSetIndex;
-    public SO_LevelSetLibrary levelSetLibrary;
+    // public int currentLevelSetIndex;
+    public WorldDatabaseSO worldDatabase;
 
-    public string currentLevelName;
-    public string nextLevelName;
+    // public string currentLevelName;
+    // public string nextLevelName;
 
     public float levelTimer;
     public bool timerIsActive;
@@ -28,7 +28,7 @@ public class SO_SessionData : ScriptableObject
         LEVELEND,
     }
 
-    private GameState currentGameState;
+    public GameState currentGameState;
     public GameState CurrentGameState
     {
         get { return currentGameState; }
@@ -67,11 +67,11 @@ public class SO_SessionData : ScriptableObject
         levelTimer = 0f;
     }
 
-    // sets the index of the current level within the current level set
-    public void SetCurrentLevelSetIndex(int i)
-    {
-        currentLevelSetIndex = i;
-    }
+    // // sets the index of the current level within the current level set
+    // public void SetCurrentLevelSetIndex(int i)
+    // {
+    //     currentLevelSetIndex = i;
+    // }
 
     public void UpdateGameState(GameState state)
     {
@@ -145,6 +145,13 @@ public class SO_SessionData : ScriptableObject
         }
     }
 
-
+    public void ResetSessionData()
+    {
+        ResetTimer();
+        // currentLevelName = string.Empty;
+        // nextLevelName = string.Empty;
+        currentPlayerState = PlayerState.INACTIVE;
+        // currentLevelSetIndex = 0;
+    }
 
 }

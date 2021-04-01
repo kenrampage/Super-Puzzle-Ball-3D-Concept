@@ -5,7 +5,7 @@ using TMPro;
 
 public class ToggleTimerButton : MonoBehaviour
 {
-    public SO_SessionData sessionData;
+    public SessionDataSO sessionData;
     public TextMeshProUGUI buttonText;
 
 

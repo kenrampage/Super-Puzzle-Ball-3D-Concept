@@ -5,24 +5,24 @@ using TMPro;
 
 public class ToggleDebugMenuButton : MonoBehaviour
 {
-    public SO_SessionData sessionData;
+    public SessionDataSO sessionData;
     public TextMeshProUGUI buttonText;
 
     private void Start()
     {
-        buttonText.text = "Debug Menu Active: " + GameManager.Instance.debugMenuOn;
+        buttonText.text = "Debug Menu Active: " + GameManager.Instance.uiManager.debugMenuOn;
     }
 
     public void ToggleDebugMenu()
     {
-        GameManager.Instance.debugMenuOn = !GameManager.Instance.debugMenuOn;
-        print("Debug Menu Active: " + GameManager.Instance.debugMenuOn);
+        GameManager.Instance.uiManager.debugMenuOn = !GameManager.Instance.uiManager.debugMenuOn;
+        print("Debug Menu Active: " + GameManager.Instance.uiManager.debugMenuOn);
 
-        if (sessionData.CurrentGameState == SO_SessionData.GameState.RUNNING && !GameManager.Instance.debugMenuOn)
+        if (sessionData.CurrentGameState == SessionDataSO.GameState.RUNNING && !GameManager.Instance.uiManager.debugMenuOn)
         {
-            sessionData.UpdateGameState(SO_SessionData.GameState.PAUSED);
+            sessionData.UpdateGameState(SessionDataSO.GameState.PAUSED);
         }
 
-        buttonText.text = "Debug Menu Active: " + GameManager.Instance.debugMenuOn;
+        buttonText.text = "Debug Menu Active: " + GameManager.Instance.uiManager.debugMenuOn;
     }
 }

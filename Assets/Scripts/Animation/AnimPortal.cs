@@ -7,7 +7,7 @@ using UnityEngine.Events;
 
 public class AnimPortal : MonoBehaviour
 {
-    public SO_SessionData sessionData;
+    public SessionDataSO sessionData;
     public Animator animator;
     public SpriteRenderer spriteRenderer;
 
@@ -29,25 +29,25 @@ public class AnimPortal : MonoBehaviour
         animator.SetBool("IsOpen", false);
     }
 
-    public void HandlePlayerStateChanged(SO_SessionData.PlayerState currentPlayerState, SO_SessionData.PlayerState previousPlayerState)
+    public void HandlePlayerStateChanged(SessionDataSO.PlayerState currentPlayerState, SessionDataSO.PlayerState previousPlayerState)
     {
         switch (currentPlayerState)
         {
-            case SO_SessionData.PlayerState.INACTIVE:
+            case SessionDataSO.PlayerState.INACTIVE:
 
                 break;
 
-            case SO_SessionData.PlayerState.SPAWNING:
+            case SessionDataSO.PlayerState.SPAWNING:
                 OpenPortal();
                 
                 break;
 
-            case SO_SessionData.PlayerState.ACTIVE:
-                if (previousPlayerState == SO_SessionData.PlayerState.SPAWNING)
+            case SessionDataSO.PlayerState.ACTIVE:
+                if (previousPlayerState == SessionDataSO.PlayerState.SPAWNING)
                 StartCoroutine(ClosePortal());
                 break;
 
-            case SO_SessionData.PlayerState.DESPAWNING:
+            case SessionDataSO.PlayerState.DESPAWNING:
                
                 break;
 

@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed81d6789b6d3eb42bf767b7a42af57f, type: 3}
-  m_Name: LevelSetLibrary
+  m_Script: {fileID: 11500000, guid: d11716d9e7d05c04ca9e8edce1635fd7, type: 3}
+  m_Name: WorldDatabase
   m_EditorClassIdentifier: 
-  currentLevelSetIndex: 0
-  setList:
-  - {fileID: 11400000, guid: 65a8060409041b44bb99377cf5a50ac3, type: 2}
-  - {fileID: 11400000, guid: 3711fddbce90f1647a88106ae2109307, type: 2}
+  worlds:
+  - {fileID: 11400000, guid: 9c6db06bf6772a54690cb936b3c3c396, type: 2}
+  - {fileID: 11400000, guid: f4f5318a7fd494240b0605a91abf759f, type: 2}
+  worldIndex: 1

@@ -6,11 +6,11 @@ using UnityEngine;
 
 public class GroundCameraTarget : MonoBehaviour
 {
-    public SO_SessionData sessionData;
+    public SessionDataSO sessionData;
 
     private void FixedUpdate()
     {
-        if (sessionData.CurrentPlayerState == SO_SessionData.PlayerState.ACTIVE)
+        if (sessionData.CurrentPlayerState == SessionDataSO.PlayerState.ACTIVE)
         {
             
             transform.position = GameManager.Instance.playerObject.GetComponent<PlayerController>().groundPosition;

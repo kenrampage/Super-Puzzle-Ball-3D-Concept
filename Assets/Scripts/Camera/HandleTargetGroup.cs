@@ -5,7 +5,7 @@ using Cinemachine;
 
 public class HandleTargetGroup : MonoBehaviour
 {
-    public SO_SessionData sessionData;
+    public SessionDataSO sessionData;
     public float targetWeight;
     public float targetRadius;
     CinemachineTargetGroup targetGroup;
@@ -30,24 +30,24 @@ public class HandleTargetGroup : MonoBehaviour
     }
 
     // Assigns the Cinemachine targetgroup primary target based on player state
-    public void HandlePlayerStateChanged(SO_SessionData.PlayerState currentPlayerState, SO_SessionData.PlayerState previousPlayerState)
+    public void HandlePlayerStateChanged(SessionDataSO.PlayerState currentPlayerState, SessionDataSO.PlayerState previousPlayerState)
     {
         switch (currentPlayerState)
         {
-            case SO_SessionData.PlayerState.INACTIVE:
+            case SessionDataSO.PlayerState.INACTIVE:
                 
                 break;
 
-            case SO_SessionData.PlayerState.SPAWNING:
+            case SessionDataSO.PlayerState.SPAWNING:
 
 
                 break;
 
-            case SO_SessionData.PlayerState.ACTIVE:
+            case SessionDataSO.PlayerState.ACTIVE:
                 UpdateTargetGroup();
                 break;
 
-            case SO_SessionData.PlayerState.DESPAWNING:
+            case SessionDataSO.PlayerState.DESPAWNING:
 
                 break;
 

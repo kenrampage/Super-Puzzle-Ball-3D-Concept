@@ -4,31 +4,31 @@ using UnityEngine;
 
 public class PauseMenuButton : MonoBehaviour
 {
-    public SO_SessionData sessionData;
+    public SessionDataSO sessionData;
 
     public void HandlePauseMenuButton()
     {
 
         switch (sessionData.CurrentGameState)
         {
-            case SO_SessionData.GameState.PREGAME:
-                GameManager.Instance.uiManager.ToggleMainMenuUI();
+            case SessionDataSO.GameState.PREGAME:
+                // GameManager.Instance.uiManager.ToggleMainMenuUI();
                 break;
 
-            case SO_SessionData.GameState.RUNNING:
-                sessionData.UpdateGameState(SO_SessionData.GameState.PAUSED);
+            case SessionDataSO.GameState.RUNNING:
+                sessionData.UpdateGameState(SessionDataSO.GameState.PAUSED);
                 break;
 
-            case SO_SessionData.GameState.PAUSED:
-                sessionData.UpdateGameState(SO_SessionData.GameState.RUNNING);
+            case SessionDataSO.GameState.PAUSED:
+                sessionData.UpdateGameState(SessionDataSO.GameState.RUNNING);
                 break;
 
-            case SO_SessionData.GameState.LEVELSTART:
-                GameManager.Instance.uiManager.ToggleMainMenuUI();
+            case SessionDataSO.GameState.LEVELSTART:
+                // GameManager.Instance.uiManager.ToggleMainMenuUI();
                 break;
 
-            case SO_SessionData.GameState.LEVELEND:
-                GameManager.Instance.uiManager.ToggleMainMenuUI();
+            case SessionDataSO.GameState.LEVELEND:
+                // GameManager.Instance.uiManager.ToggleMainMenuUI();
                 break;
 
             default:

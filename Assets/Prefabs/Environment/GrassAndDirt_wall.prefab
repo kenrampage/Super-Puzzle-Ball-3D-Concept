@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 608843187704208291, guid: 2ea83164b256b6e42a444621686ec185, type: 3}
       propertyPath: m_Name
-      value: GrassAndDirt Wall Variant
+      value: GrassAndDirt Wall L
       objectReference: {fileID: 0}
     - target: {fileID: 4820839619255096916, guid: 2ea83164b256b6e42a444621686ec185, type: 3}
       propertyPath: m_Points.m_Paths.Array.data[0].Array.size
@@ -336,6 +336,10 @@ PrefabInstance:
       value: 1.25
       objectReference: {fileID: 0}
     - target: {fileID: 5518573125709663518, guid: 2ea83164b256b6e42a444621686ec185, type: 3}
+      propertyPath: m_Spline.m_ControlPoints.Array.data[1].spriteIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5518573125709663518, guid: 2ea83164b256b6e42a444621686ec185, type: 3}
       propertyPath: m_Spline.m_ControlPoints.Array.data[0].leftTangent.x
       value: 0
       objectReference: {fileID: 0}
@@ -368,6 +372,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6688691712765411862, guid: 2ea83164b256b6e42a444621686ec185, type: 3}
+      propertyPath: m_SortingLayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6688691712765411862, guid: 2ea83164b256b6e42a444621686ec185, type: 3}
+      propertyPath: m_SortingLayerID
+      value: -1430787625
+      objectReference: {fileID: 0}
+    - target: {fileID: 6688691712765411862, guid: 2ea83164b256b6e42a444621686ec185, type: 3}
       propertyPath: m_Sprites.Array.size
       value: 12
       objectReference: {fileID: 0}
@@ -395,6 +407,14 @@ PrefabInstance:
       propertyPath: m_LocalAABB.m_Extent.z
       value: 0.0002
       objectReference: {fileID: 0}
+    - target: {fileID: 6688691712765411862, guid: 2ea83164b256b6e42a444621686ec185, type: 3}
+      propertyPath: m_Sprites.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300000, guid: a7f7ea98696af114d89191e170755000, type: 3}
+    - target: {fileID: 6688691712765411862, guid: 2ea83164b256b6e42a444621686ec185, type: 3}
+      propertyPath: m_Sprites.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300000, guid: 91d166032c478a9448c7a2943c1fc3ad, type: 3}
     - target: {fileID: 6688691712765411862, guid: 2ea83164b256b6e42a444621686ec185, type: 3}
       propertyPath: m_Sprites.Array.data[6]
       value: 

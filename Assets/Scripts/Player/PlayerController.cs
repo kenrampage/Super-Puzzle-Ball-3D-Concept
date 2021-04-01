@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     // public SO_ScoreKeeper scoreKeeper;
-    public SO_SessionData sessionData;
+    public SessionDataSO sessionData;
     public Rigidbody2D playerRb;
 
     public float boostForce = 7;
@@ -66,7 +66,7 @@ public class PlayerController : MonoBehaviour
     // Handles boosting player in the direction of the mouse plus setting and checking the cooldown
     public void BoostPlayer()
     {
-        if (sessionData.CurrentGameState == SO_SessionData.GameState.RUNNING)
+        if (sessionData.CurrentGameState == SessionDataSO.GameState.RUNNING)
         {
             SetMouseDirection();
 

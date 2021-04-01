@@ -6,87 +6,89 @@ using UnityEngine.Events;
 
 public class UIManager : MonoBehaviour
 {
-    public SO_SessionData sessionData;
+    public SessionDataSO sessionData;
+    public WorldDatabaseSO worldDatabase;
     public GameObject gameUICanvas;
-    public GameObject mainMenuUICanvas;
-    public GameObject uiOverlayCanvas;
-    public GameObject pauseOverlayCanvas;
+    // public GameObject uiOverlayCanvas;
+    public GameObject pauseMenuCanvas;
     public GameObject levelStartCanvas;
     public GameObject levelEndCanvas;
+
+    public bool debugMenuOn;
 
 
     // Start is called before the first frame update
     void Start()
     {
         sessionData.OnGameStateChanged.AddListener(HandleGameStateChanged);
-        GameManager.Instance.OnLevelChanged.AddListener(HandleLevelChanged);
+        // GameManager.Instance.OnLevelChanged.AddListener(HandleLevelChanged);
+        if(sessionData.CurrentGameState == SessionDataSO.GameState.LEVELSTART)
+        {
+            levelStartCanvas.gameObject.SetActive(true);
+        }
 
     }
 
     // toggles various UI elements based on gamestate. Is there a better way to do this?
-    void HandleGameStateChanged(SO_SessionData.GameState currentState, SO_SessionData.GameState previousState)
+    void HandleGameStateChanged(SessionDataSO.GameState currentState, SessionDataSO.GameState previousState)
     {
 
         switch (currentState)
         {
-            case SO_SessionData.GameState.PREGAME:
-                mainMenuUICanvas.gameObject.SetActive(true);
+            case SessionDataSO.GameState.PREGAME:
                 gameUICanvas.gameObject.SetActive(false);
-                pauseOverlayCanvas.gameObject.SetActive(false);
+                pauseMenuCanvas.gameObject.SetActive(false);
                 levelStartCanvas.gameObject.SetActive(false);
                 levelEndCanvas.gameObject.SetActive(false);
                 break;
 
-            case SO_SessionData.GameState.RUNNING:
+            case SessionDataSO.GameState.RUNNING:
 
-                if (GameManager.Instance.debugMenuOn)
-                {
-                    mainMenuUICanvas.gameObject.SetActive(true);
-                }
-                else
-                {
-                    mainMenuUICanvas.gameObject.SetActive(false);
-                }
+                // if (GameManager.Instance.debugMenuOn)
+                // {
+                //     mainMenuUICanvas.gameObject.SetActive(true);
+                // }
+                // else
+                // {
+                //     mainMenuUICanvas.gameObject.SetActive(false);
+                // }
                 gameUICanvas.gameObject.SetActive(true);
-                pauseOverlayCanvas.gameObject.SetActive(false);
+                pauseMenuCanvas.gameObject.SetActive(false);
                 levelStartCanvas.gameObject.SetActive(false);
                 levelEndCanvas.gameObject.SetActive(false);
                 break;
 
-            case SO_SessionData.GameState.PAUSED:
-                mainMenuUICanvas.gameObject.SetActive(true);
+            case SessionDataSO.GameState.PAUSED:
                 gameUICanvas.gameObject.SetActive(true);
-                pauseOverlayCanvas.gameObject.SetActive(true);
+                pauseMenuCanvas.gameObject.SetActive(true);
                 levelStartCanvas.gameObject.SetActive(false);
                 levelEndCanvas.gameObject.SetActive(false);
                 break;
 
-            case SO_SessionData.GameState.LEVELSTART:
-                mainMenuUICanvas.gameObject.SetActive(false);
+            case SessionDataSO.GameState.LEVELSTART:
                 gameUICanvas.gameObject.SetActive(false);
-                pauseOverlayCanvas.gameObject.SetActive(false);
+                pauseMenuCanvas.gameObject.SetActive(false);
                 levelStartCanvas.gameObject.SetActive(true);
                 levelEndCanvas.gameObject.SetActive(false);
                 break;
 
-            case SO_SessionData.GameState.LEVELEND:
-                if (GameManager.Instance.debugMenuOn)
-                {
-                    mainMenuUICanvas.gameObject.SetActive(true);
-                }
-                else
-                {
-                    mainMenuUICanvas.gameObject.SetActive(false);
-                }
+            case SessionDataSO.GameState.LEVELEND:
+                // if (GameManager.Instance.debugMenuOn)
+                // {
+                //     mainMenuUICanvas.gameObject.SetActive(true);
+                // }
+                // else
+                // {
+                //     mainMenuUICanvas.gameObject.SetActive(false);
+                // }
                 gameUICanvas.gameObject.SetActive(false);
-                pauseOverlayCanvas.gameObject.SetActive(false);
+                pauseMenuCanvas.gameObject.SetActive(false);
                 levelEndCanvas.gameObject.SetActive(true);
                 break;
 
             default:
-                mainMenuUICanvas.gameObject.SetActive(true);
                 gameUICanvas.gameObject.SetActive(false);
-                pauseOverlayCanvas.gameObject.SetActive(false);
+                pauseMenuCanvas.gameObject.SetActive(false);
                 levelStartCanvas.gameObject.SetActive(false);
                 levelEndCanvas.gameObject.SetActive(false);
                 break;
@@ -94,26 +96,26 @@ public class UIManager : MonoBehaviour
 
     }
 
-    void HandleLevelChanged(string newLevel)
-    {
-        gameUICanvas.transform.Find("CurrentLevelText").GetComponent<TextMeshProUGUI>().text = "Level: " + newLevel;
-    }
+    // void HandleLevelChanged(string newLevel)
+    // {
+    //     gameUICanvas.transform.Find("CurrentLevelText").GetComponent<TextMeshProUGUI>().text = "Level: " + newLevel;
+    // }
 
-    public void ToggleMainMenuUI()
+    public void TogglePauseMenu()
     {
-        if (mainMenuUICanvas.activeSelf)
+        if (pauseMenuCanvas.activeSelf)
         {
-            mainMenuUICanvas.gameObject.SetActive(false);
+            pauseMenuCanvas.gameObject.SetActive(false);
         }
         else 
         { 
-            mainMenuUICanvas.gameObject.SetActive(true);
+            pauseMenuCanvas.gameObject.SetActive(true);
         }
     }
 
     void UpdateLevelText()
     {
-        gameUICanvas.transform.Find("CurrentLevelText").GetComponent<TextMeshProUGUI>().text = sessionData.currentLevelName;
+        gameUICanvas.transform.Find("CurrentLevelText").GetComponent<TextMeshProUGUI>().text = worldDatabase.CurrentLevelName();
     }
 
 }

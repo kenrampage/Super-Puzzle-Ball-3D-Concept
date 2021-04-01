@@ -6,7 +6,8 @@ using System;
 
 public class GameUI : MonoBehaviour
 {
-    public SO_SessionData sessionData;
+    public SessionDataSO sessionData;
+    public WorldDatabaseSO worldDatabase;
     public TextMeshProUGUI currentLevelText;
     public TextMeshProUGUI gameTimer;
 
@@ -14,7 +15,7 @@ public class GameUI : MonoBehaviour
 
     private void OnEnable()
     {
-        currentLevelText.text = sessionData.currentLevelName;
+        currentLevelText.text = worldDatabase.CurrentLevelName();
 
     }
 
