@@ -60,7 +60,8 @@ public class WorldDatabaseSO : ScriptableObject
         {
             CurrentWorld().levelIndex = index;
             SceneManager.LoadScene(CurrentWorld().levels[index]);
-        } else
+        }
+        else
         {
             MainMenu();
         }
@@ -97,9 +98,31 @@ public class WorldDatabaseSO : ScriptableObject
         CurrentWorld().levelIndex = 0;
     }
 
+    // return current level name
     public string CurrentLevelName()
     {
         return CurrentWorld().levels[CurrentWorld().levelIndex].ToString();
+    }
+
+    // digs through all worlds and levels to update their indexes based on the loaded scene
+    public void UpdateIndexes()
+    {
+        string currentScene = SceneManager.GetActiveScene().name;
+
+        foreach (WorldSO world in worlds)
+        {
+            foreach (string level in world.levels)
+            {
+                if(level == currentScene)
+                {
+                    world.levelIndex = world.levels.IndexOf(level);
+                    Debug.Log("Current Level Index is: " + world.levelIndex);
+
+                    worldIndex = worlds.IndexOf(world);
+                    Debug.Log("Current World Index is: " + worldIndex);
+                }
+            }
+        }
     }
 
 }

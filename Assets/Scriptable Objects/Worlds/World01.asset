@@ -15,7 +15,8 @@ MonoBehaviour:
   description: Tutorial Levels
   levelIndex: 0
   levels:
-  - Level01
-  - Level02
-  - Level03
-  - Level04
+  - Level 1-1
+  - Level 1-2
+  - Level 1-3
+  - Level 1-4
+  - Level 1-5

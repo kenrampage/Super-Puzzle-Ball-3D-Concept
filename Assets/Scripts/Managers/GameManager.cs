@@ -12,11 +12,13 @@ public class EventLevelData : UnityEvent<string> { }
 public class GameManager : Singleton<GameManager>
 {
     public SessionDataSO sessionData;
+    public WorldDatabaseSO worldDatabase;
 
     // public GameObject[] systemPrefabs;
     // private List<GameObject> instancedSystemPrefabs;
 
     // public EventLevelData OnLevelChanged = new EventLevelData();
+
 
     public UIManager uiManager;
 
@@ -35,6 +37,7 @@ public class GameManager : Singleton<GameManager>
     {
         base.Awake();
         inputActions = new InputActions();
+        worldDatabase.UpdateIndexes();
         // DontDestroyOnLoad(gameObject);
 
     }
@@ -55,6 +58,7 @@ public class GameManager : Singleton<GameManager>
         InitializeLevel();
         // development only
         FindSpawnPoint();
+        
 
 
     }
