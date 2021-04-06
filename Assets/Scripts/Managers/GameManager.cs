@@ -30,7 +30,7 @@ public class GameManager : Singleton<GameManager>
     public GameObject playerPrefab;
     public float spawnDelay;
 
-    [HideInInspector] public GameObject playerObject;
+    public GameObject playerObject;
     [HideInInspector] public GameObject spawnPoint;
 
     override public void Awake()

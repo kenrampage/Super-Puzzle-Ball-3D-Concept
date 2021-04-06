@@ -24,7 +24,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6172334431012323985}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -48,7 +48,7 @@ MonoBehaviour:
   uiManager: {fileID: 0}
   targetsList: []
   targetCount: 0
-  playerPrefab: {fileID: 4745839067067392443, guid: f5457c8ba18d38f47a30dffe429d19b0, type: 3}
+  playerPrefab: {fileID: 7598022424082337849, guid: 5dd6944c6b9444f408cd118b03aa8b9f, type: 3}
   spawnDelay: 0.5
   playerObject: {fileID: 0}
   spawnPoint: {fileID: 0}
