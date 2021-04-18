@@ -13,7 +13,7 @@ public class GroundCameraTarget : MonoBehaviour
         if (sessionData.CurrentPlayerState == SessionDataSO.PlayerState.ACTIVE)
         {
             
-            transform.position = GameManager.Instance.playerObject.GetComponent<PlayerController>().groundPosition;
+            transform.position = GameManager.Instance.playerObject.GetComponent<PlayerController3D>().groundPosition;
         }
         else
         {

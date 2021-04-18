@@ -16,15 +16,14 @@ public class PlayerController3D : MonoBehaviour
     private float boostNextFireTime = 0;
     private float boostCooldownLeftPercent;
 
-    public GameObject cooldownOverlay;
-    public SpriteRenderer cooldownSprite;
+    // public GameObject cooldownOverlay;
+    // public SpriteRenderer cooldownSprite;
 
     private InputActions inputActions;
     public Camera gameCamera;
-    private Vector2 relativeMousePos;
-    private Vector2 normalizedMousePos;
+    private Vector3 mouseTarget;
     [SerializeField] LayerMask groundLayerMask;
-    public Vector2 groundPosition;
+    public Vector3 groundPosition;
 
     private void Awake()
     {
@@ -34,7 +33,7 @@ public class PlayerController3D : MonoBehaviour
     private void Start()
     {
         inputActions.Player.Click.performed += _ => BoostPlayer();
-        SpriteRenderer cooldownSprite = cooldownOverlay.GetComponent<SpriteRenderer>();
+        // SpriteRenderer cooldownSprite = cooldownOverlay.GetComponent<SpriteRenderer>();
 
     }
 
@@ -58,8 +57,18 @@ public class PlayerController3D : MonoBehaviour
     // Calculates direction and angle between player and mouse
     public void SetMouseDirection()
     {
-        relativeMousePos = gameCamera.ScreenToWorldPoint(inputActions.Player.MouseAim.ReadValue<Vector2>()) - transform.position;
-        normalizedMousePos = relativeMousePos.normalized;
+        // relativeMousePos = gameCamera.ScreenToWorldPoint(new Vector3(Mouse.current.position.ReadValue().x, Mouse.current.position.ReadValue().y, 0));
+        // normalizedMousePos = relativeMousePos.normalized;
+        // print(relativeMousePos);
+
+        Vector3 mousePosition = gameCamera.ScreenToViewportPoint(Input.mousePosition);
+        Vector3 playerPosition = gameCamera.WorldToViewportPoint(transform.position);
+
+        mouseTarget = (new Vector3(mousePosition.x - playerPosition.x, mousePosition.y - playerPosition.y, transform.position.z)).normalized;
+        print(mouseTarget);
+        
+        
+        
 
     }
 
@@ -72,7 +81,7 @@ public class PlayerController3D : MonoBehaviour
 
             if (boostCooldownLeftPercent == 1)
             {
-                playerRb.AddForce(normalizedMousePos * boostForce, ForceMode.Impulse);
+                playerRb.AddForce(mouseTarget * boostForce, ForceMode.Impulse);
                 boostNextFireTime = Time.time + boostCooldown;
             }
             else
@@ -80,6 +89,7 @@ public class PlayerController3D : MonoBehaviour
                 print((boostNextFireTime - Time.time) + " Seconds Left on the boost cooldown");
             }
         }
+
 
     }
 
@@ -91,12 +101,12 @@ public class PlayerController3D : MonoBehaviour
         if (boostNextFireTime > Time.time)
         {
             boostCooldownLeftPercent = (boostNextFireTime - Time.time) / boostCooldown;
-            cooldownSprite.color = new Color(cooldownSprite.color.r, cooldownSprite.color.g, cooldownSprite.color.b, boostCooldownLeftPercent * .4f);
+            // cooldownSprite.color = new Color(cooldownSprite.color.r, cooldownSprite.color.g, cooldownSprite.color.b, boostCooldownLeftPercent * .4f);
         }
         else
         {
             boostCooldownLeftPercent = 1;
-            cooldownSprite.color = new Color(cooldownSprite.color.r, cooldownSprite.color.g, cooldownSprite.color.b, 0);
+            // cooldownSprite.color = new Color(cooldownSprite.color.r, cooldownSprite.color.g, cooldownSprite.color.b, 0);
         }
     }
 
@@ -108,6 +118,7 @@ public class PlayerController3D : MonoBehaviour
         if (Physics.Raycast(transform.position, Vector3.down, out raycastHit, Mathf.Infinity, groundLayerMask))
 
             groundPosition = new Vector3(transform.position.x, transform.position.y - raycastHit.distance, transform.position.z);
+            print(groundPosition);
 
         Color rayColor = Color.red;
         Debug.DrawRay(transform.position, Vector2.down * raycastHit.distance, rayColor);
