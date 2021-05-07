@@ -11,17 +11,15 @@ public class PlayerController3D : MonoBehaviour
     public Rigidbody playerRb;
 
     public float boostForce = 7;
-    public float boostCooldown = .5f;
+    // public float boostCooldown = .5f;
 
-    private float boostNextFireTime = 0;
-    private float boostCooldownLeftPercent;
-
-    // public GameObject cooldownOverlay;
-    // public SpriteRenderer cooldownSprite;
-
+    // private float boostNextFireTime = 0;
+    // private float boostCooldownLeftPercent;
+    public bool boostOn = false;
     private InputActions inputActions;
     public Camera gameCamera;
-    private Vector3 mouseTarget;
+    private Vector3 boostDirection;
+
     [SerializeField] LayerMask groundLayerMask;
     public Vector3 groundPosition;
 
@@ -33,7 +31,6 @@ public class PlayerController3D : MonoBehaviour
     private void Start()
     {
         inputActions.Player.Click.performed += _ => BoostPlayer();
-        // SpriteRenderer cooldownSprite = cooldownOverlay.GetComponent<SpriteRenderer>();
 
     }
 
@@ -50,65 +47,53 @@ public class PlayerController3D : MonoBehaviour
 
     private void Update()
     {
-        BoostCooldownEffect();
+        // BoostCooldownEffect();
         GetDistanceToGround();
     }
 
     // Calculates direction and angle between player and mouse
-    public void SetMouseDirection()
+    public void SetBoostDirection()
     {
-        // relativeMousePos = gameCamera.ScreenToWorldPoint(new Vector3(Mouse.current.position.ReadValue().x, Mouse.current.position.ReadValue().y, 0));
-        // normalizedMousePos = relativeMousePos.normalized;
-        // print(relativeMousePos);
 
         Vector3 mousePosition = gameCamera.ScreenToViewportPoint(Input.mousePosition);
         Vector3 playerPosition = gameCamera.WorldToViewportPoint(transform.position);
 
-        mouseTarget = (new Vector3(mousePosition.x - playerPosition.x, mousePosition.y - playerPosition.y, transform.position.z)).normalized;
-        print(mouseTarget);
-        
-        
-        
+        boostDirection = (new Vector3(mousePosition.x - playerPosition.x, mousePosition.y - playerPosition.y, transform.position.z)).normalized;
 
     }
 
-    // Handles boosting player in the direction of the mouse plus setting and checking the cooldown
+    // Handles boosting player in the direction of the mouse
     public void BoostPlayer()
     {
         if (sessionData.CurrentGameState == SessionDataSO.GameState.RUNNING)
         {
-            SetMouseDirection();
+            SetBoostDirection();
 
-            if (boostCooldownLeftPercent == 1)
+            if (boostOn)
             {
-                playerRb.AddForce(mouseTarget * boostForce, ForceMode.Impulse);
-                boostNextFireTime = Time.time + boostCooldown;
+                playerRb.AddForce(boostDirection * boostForce, ForceMode.Impulse);
+                boostOn = false;
+
             }
             else
             {
-                print((boostNextFireTime - Time.time) + " Seconds Left on the boost cooldown");
+                print("Boost is OFF");
             }
         }
 
 
     }
 
-    // Calculates boost cooldown then adjusts sprite opacity and enables/disables the wand
-
-    public void BoostCooldownEffect()
+    // Turns the boost back on after collision with anything that's not tagged NoBoostReset
+    private void OnCollisionEnter(Collision other)
     {
-
-        if (boostNextFireTime > Time.time)
+        if(other.gameObject.tag != "NoBoostReset")
         {
-            boostCooldownLeftPercent = (boostNextFireTime - Time.time) / boostCooldown;
-            // cooldownSprite.color = new Color(cooldownSprite.color.r, cooldownSprite.color.g, cooldownSprite.color.b, boostCooldownLeftPercent * .4f);
+            boostOn = true;
         }
-        else
-        {
-            boostCooldownLeftPercent = 1;
-            // cooldownSprite.color = new Color(cooldownSprite.color.r, cooldownSprite.color.g, cooldownSprite.color.b, 0);
-        }
+        
     }
+
 
     // checks the distance to the object directly below the player on the ground layer mask. Used for positioning the ground target for cinemachine
     public void GetDistanceToGround()
@@ -118,20 +103,9 @@ public class PlayerController3D : MonoBehaviour
         if (Physics.Raycast(transform.position, Vector3.down, out raycastHit, Mathf.Infinity, groundLayerMask))
 
             groundPosition = new Vector3(transform.position.x, transform.position.y - raycastHit.distance, transform.position.z);
-            print(groundPosition);
 
         Color rayColor = Color.red;
         Debug.DrawRay(transform.position, Vector2.down * raycastHit.distance, rayColor);
-    }
-
-    
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.transform.tag == "Target")
-        {
-            GameManager.Instance.RemoveTarget(other.gameObject);
-            Destroy(other.gameObject);
-        }
     }
 
 }

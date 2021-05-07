@@ -14,14 +14,15 @@ public class DistanceToGround : MonoBehaviour
         GetDistanceToGround();
     }
 
+    // checks the distance to the object directly below the player on the ground layer mask. Used for positioning the ground target for cinemachine
     public void GetDistanceToGround()
     {
-        RaycastHit2D raycastHit = Physics2D.Raycast(transform.position, Vector2.down, Mathf.Infinity, groundLayerMask);
+        RaycastHit raycastHit;
 
-        if (raycastHit.collider != null)
-        {
-            groundPosition = new Vector2(transform.position.x, transform.position.y - raycastHit.distance);
-        }
+        if (Physics.Raycast(transform.position, Vector3.down, out raycastHit, Mathf.Infinity, groundLayerMask))
+
+            groundPosition = new Vector3(transform.position.x, transform.position.y - raycastHit.distance, transform.position.z);
+
         Color rayColor = Color.red;
         Debug.DrawRay(transform.position, Vector2.down * raycastHit.distance, rayColor);
     }
