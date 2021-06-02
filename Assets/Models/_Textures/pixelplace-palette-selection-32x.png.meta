@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Models/_Textures/Sky/Day Sun High Summersky 2.png.meta
+guid: 592ad5ef13fa51f429e74d480de06508
+=======
 guid: 510c52f85e5aa104497714ee08c62f13
+>>>>>>> parent of 155cbdc (Amplify implemented and working with terrain in 3d):Assets/Models/_Textures/pixelplace-palette-selection-32x.png.meta
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
