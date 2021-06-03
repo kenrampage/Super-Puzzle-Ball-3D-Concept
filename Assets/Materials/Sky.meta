@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<< HEAD:Assets/Materials/Sky.meta
-guid: a6c002287a4986f45b604008502f6686
-=======
-guid: 345247d4543dcaf4794be15d5ce28cd0
->>>>>>> parent of 155cbdc (Amplify implemented and working with terrain in 3d):Assets/Models/_Materials.meta
+guid: 520e8869e2471344cbe05f0e777ce723
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
