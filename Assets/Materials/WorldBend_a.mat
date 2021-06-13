@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: WorldBend_a
+  m_Shader: {fileID: 4800000, guid: ed96864df15e6cf44bb04a0bb9704b98, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _TextureSample0:
+        m_Texture: {fileID: 2800000, guid: 84508b93f15f2b64386ec07486afc7a3, type: 3}
+        m_Scale: {x: 10, y: 10}
+        m_Offset: {x: 1, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _AlphaCutoff: 0.5
+    - _BendAmount: -11.7
+    - _BendRange: 272.4
+    - _BendStart: 5
+    - _BendStartZPos: 66
+    - _BendStarts: 0
+    - _CurveMultiplier: 0
+    - _Power: 2
+    - _TestFloat: -0.8
+    - _TransitionDistance: 0
+    - _TransitionDistance1: 21.54
+    - _TransitionFalloff: 0
+    - _TransitionFalloff1: 4.65
+    - _WorldBendAmount: 0.039
+    - __dirty: 0
+    m_Colors:
+    - _Color0: {r: 0, g: 0.6132076, b: 0.05848851, a: 0}
+    - _Color1: {r: 1, g: 0, b: 0, a: 0}
+    - _CurvedSphereTip: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Vector: {r: 0, g: 1, b: 0, a: 0}
+  m_BuildTextureStacks: []
