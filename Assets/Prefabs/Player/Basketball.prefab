@@ -128,8 +128,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sessionData: {fileID: 11400000, guid: c3a53e41a2f369b4a959f32eaef7a791, type: 2}
   playerRb: {fileID: 2012020201332080013}
-  boostForce: 7
-  boostCooldown: 0.5
+  boostForce: 10
+  boostOn: 0
   gameCamera: {fileID: 0}
   groundLayerMask:
     serializedVersion: 2
