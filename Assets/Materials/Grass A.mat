@@ -20,29 +20,29 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: 32cda521cf2a05243a4700018a17ce01, type: 3}
+        m_Texture: {fileID: 2800000, guid: 4e93f6af51a7d0a4fa63468073a13218, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 4b45f3fcd5679cc458f521a610f4b68a, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
-        m_Texture: {fileID: 2800000, guid: 77f06a7451a7c464d94714576e430153, type: 3}
+        m_Texture: {fileID: 2800000, guid: 2671526a3c67a4b47bbe8ea694a51cfe, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _AlphaCutoff: 0.5
     - _Metallic: 0
-    - _NormalScale: 0.3
-    - _OcclusionStrength: 0
-    - _Smoothness: 0.2
+    - _NormalScale: 0.5
+    - _OcclusionStrength: 1
+    - _Smoothness: 0.3
     - _WindScale: 0
     - _WindSpeed: 0
     - __dirty: 0
     m_Colors:
     - _BaseColor: {r: 0.11814703, g: 0.4245283, b: 0.13823655, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
-    - _TilingandOffset: {r: 5, g: 5, b: 0, a: 0}
+    - _TilingandOffset: {r: 4, g: 4, b: 0, a: 0}
     - _WindDirection: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
