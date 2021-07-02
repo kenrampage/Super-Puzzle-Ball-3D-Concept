@@ -23,6 +23,9 @@ public class PlayerController3D : MonoBehaviour
     [SerializeField] LayerMask groundLayerMask;
     public Vector3 groundPosition;
 
+    public bool inWindArea = false;
+    public GameObject windArea;
+
     private void Awake()
     {
         inputActions = new InputActions();
@@ -49,6 +52,14 @@ public class PlayerController3D : MonoBehaviour
     {
         // BoostCooldownEffect();
         GetDistanceToGround();
+    }
+
+    private void FixedUpdate()
+    {
+        if(inWindArea)
+        {
+            playerRb.AddForce(windArea.GetComponent<WindArea>().windDirection * windArea.GetComponent<WindArea>().windStrength);
+        }
     }
 
     // Calculates direction and angle between player and mouse
@@ -87,11 +98,20 @@ public class PlayerController3D : MonoBehaviour
     // Turns the boost back on after collision with anything that's not tagged NoBoostReset
     private void OnCollisionEnter(Collision other)
     {
-        if(other.gameObject.tag != "NoBoostReset")
+        if (other.gameObject.tag != "NoBoostReset")
         {
             boostOn = true;
         }
-        
+
+    }
+
+    // Failsafe to turn boost back on if ball gets stuck
+    private void OnCollisionStay(Collision other)
+    {
+        if (other.gameObject.tag != "NoBoostReset")
+        {
+            boostOn = true;
+        }
     }
 
 
@@ -104,8 +124,26 @@ public class PlayerController3D : MonoBehaviour
 
             groundPosition = new Vector3(transform.position.x, transform.position.y - raycastHit.distance, transform.position.z);
 
-        Color rayColor = Color.red;
-        Debug.DrawRay(transform.position, Vector2.down * raycastHit.distance, rayColor);
+        // Color rayColor = Color.red;
+        // Debug.DrawRay(transform.position, Vector2.down * raycastHit.distance, rayColor);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "WindArea")
+        {
+            windArea = other.gameObject;
+            inWindArea = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "WindArea")
+        {
+            windArea = null;
+            inWindArea = false;
+        }
     }
 
 }

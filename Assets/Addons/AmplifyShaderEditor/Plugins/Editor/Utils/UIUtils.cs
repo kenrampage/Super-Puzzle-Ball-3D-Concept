@@ -765,6 +765,7 @@ namespace AmplifyShaderEditor
 			{WirePortDataType.SAMPLERCUBE,  "samplerCUBE"},
 			{WirePortDataType.SAMPLER2DARRAY,  "sampler2DArray"},
 			{WirePortDataType.UINT,         "uint"},
+			{WirePortDataType.UINT4,         "uint4"},
 			{WirePortDataType.SAMPLERSTATE, "SamplerState"}
 		};
 
@@ -1363,6 +1364,9 @@ namespace AmplifyShaderEditor
 				return m_wirePortToCgType[ type ];
 
 			if( type == WirePortDataType.UINT )
+				return m_wirePortToCgType[ type ];
+
+			if( type == WirePortDataType.UINT4 )
 				return m_wirePortToCgType[ type ];
 
 			return string.Format( m_precisionWirePortToCgType[ type ] , m_precisionTypeToCg[ precisionType ] );

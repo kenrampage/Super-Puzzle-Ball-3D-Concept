@@ -477,6 +477,7 @@ namespace AmplifyShaderEditor
 				if( !hotCodeOrRead )
 				{
 					m_customInspectorName = m_templateMultiPass.CustomInspectorContainer.Data;
+					CheckLegacyCustomInspectors();
 					if( m_isMainOutputNode )
 					{
 						m_passSelector.Clear();
@@ -1385,7 +1386,7 @@ namespace AmplifyShaderEditor
 			int count = nodes.Count;
 			for( int nodeIdx = 0; nodeIdx < count; nodeIdx++ )
 			{
-				nodes[ nodeIdx ].OptionsDefineContainer.AddDefine( "#define " + define, false );
+				nodes[ nodeIdx ].OptionsDefineContainer.AddDirective( "#define " + define, false );
 			}
 		}
 
@@ -2524,6 +2525,20 @@ namespace AmplifyShaderEditor
 			SetModuleData( m_subShaderModule, true );
 		}
 
+		public bool CheckDefineListItem(PropertyDataCollector item )
+		{
+			//The IsDirective flag in this context is used to determine if its #pragma
+			if( item.IsDirective )
+			{
+				return !m_currentDataCollector.ContainsPragma( item.PropertyName );
+			}
+			else
+			{
+				return !m_currentDataCollector.ContainsDefine( item.PropertyName );
+			}
+			
+		}
+
 		public void FillPassData( TemplateMultiPassMasterNode masterNode, TemplateDataCollector mainTemplateDataCollector )
 		{
 			if( m_isInvisible != InvisibilityStatus.Visible )
@@ -2579,7 +2594,15 @@ namespace AmplifyShaderEditor
 				//includePragmaDefineList.AddRange( m_currentDataCollector.MiscList );
 
 				List<PropertyDataCollector> beforeNatives = new List<PropertyDataCollector>();
-				beforeNatives.AddRange( m_optionsDefineContainer.DefinesList );
+				int defineListCount = m_optionsDefineContainer.DefinesList.Count;
+				for( int i = 0 ; i < defineListCount ; i++ )
+				{
+					if( CheckDefineListItem( m_optionsDefineContainer.DefinesList[ i ] ) )
+					{
+						beforeNatives.Add( m_optionsDefineContainer.DefinesList[ i ] );
+					}
+				}
+
 				beforeNatives.AddRange( m_currentDataCollector.BeforeNativeDirectivesList );
 
 				m_templateMultiPass.SetPassData( TemplateModuleDataType.ModulePragmaBefore, m_subShaderIdx, m_passIdx, beforeNatives );
@@ -3180,7 +3203,21 @@ namespace AmplifyShaderEditor
 
 			m_containerGraph.CurrentCanvasMode = NodeAvailability.TemplateShader;
 			m_containerGraph.CurrentPrecision = m_currentPrecisionType;
-#if UNITY_2020_2_OR_NEWER
+			CheckLegacyCustomInspectors();
+		}
+
+		void CheckLegacyCustomInspectors()
+		{
+#if UNITY_2021_1_OR_NEWER
+			if( m_templateMultiPass.SubShaders[ 0 ].Modules.SRPType == TemplateSRPType.HD && ASEPackageManagerHelper.CurrentHDVersion >= ASESRPVersions.ASE_SRP_11_0_0 )
+			{
+				if( Constants.CustomInspectorHDLegacyTo11.ContainsKey( m_customInspectorName ) )
+				{
+					UIUtils.ShowMessage( string.Format( "Detected obsolete custom inspector \"{0}\" in shader meta. Converting to new one \"{1}\"" , m_customInspectorName , Constants.CustomInspectorHDLegacyTo11[ m_customInspectorName ] ) , MessageSeverity.Warning );
+					m_customInspectorName = Constants.CustomInspectorHDLegacyTo11[ m_customInspectorName ];
+				}
+			}
+#elif UNITY_2020_2_OR_NEWER
 			if(  m_templateMultiPass.SubShaders[0].Modules.SRPType == TemplateSRPType.HD && ASEPackageManagerHelper.CurrentHDVersion >= ASESRPVersions.ASE_SRP_10_0_0 )
 			{
 				if( Constants.CustomInspectorHD7To10.ContainsKey( m_customInspectorName ) )
@@ -3191,7 +3228,6 @@ namespace AmplifyShaderEditor
 			}
 #endif
 		}
-
 		public override void WriteToString( ref string nodeInfo, ref string connectionsInfo )
 		{
 			base.WriteToString( ref nodeInfo, ref connectionsInfo );

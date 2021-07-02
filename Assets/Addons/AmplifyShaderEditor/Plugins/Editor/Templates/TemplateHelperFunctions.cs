@@ -47,7 +47,10 @@ namespace AmplifyShaderEditor
 		SV_PrimitiveID,
 		SV_InstanceID,
 		INTERNALTESSPOS,
-		INSTANCEID_SEMANTIC
+		INSTANCEID_SEMANTIC,
+		BLENDWEIGHTS,
+		BLENDINDICES
+
 	}
 
 	public enum TemplateInfoOnSematics
@@ -78,7 +81,9 @@ namespace AmplifyShaderEditor
 		OTHER,
 		VFACE,
 		SHADOWCOORDS,
-		VERTEXID
+		VERTEXID,
+		BLENDWEIGHTS,
+		BLENDINDICES
 	}
 
 	public enum TemplateShaderPropertiesIdx
@@ -553,6 +558,7 @@ namespace AmplifyShaderEditor
 			{WirePortDataType.COLOR,4 },
 			{WirePortDataType.INT,1 },
 			{WirePortDataType.UINT,1 },
+			{WirePortDataType.UINT4,4 },
 			{WirePortDataType.SAMPLER1D,0 },
 			{WirePortDataType.SAMPLER2D,0 },
 			{WirePortDataType.SAMPLER3D,0 },

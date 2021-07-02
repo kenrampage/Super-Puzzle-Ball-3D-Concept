@@ -1,4 +1,30 @@
 Release Notes:
+v1.8.9 rev 10:
+* New Nodes:
+    * Bone Blend Weights
+        * Only compatible with Unity 2019.1 or above and template type shaders
+    * Bone Blend Indices
+        * Only compatible with Unity 2019.1 or above and template type shaders
+
+* Fixes:
+    * Fixed issue on some port results not being correctly written on GBuffer pass over URP v.11
+    * Fixed yet another issue with ransomned property names
+    * Fixed redefinition error on 'Triplanar Sample'node
+    * Fixed undeclared standard surface Tessellation properties for both Edge Length and Edge Length with Cull
+    * Fixed warning on duplicates directives being set over options template type shaders
+    * Fixed truncation warning on Legacy Refraction over URP/PBR
+    * Fixed error on 'Global Array' node where index clamping was being done always with local value even on Reference setup
+    * Fixed multiple redefinition warnings on MultiPassUnlit template
+    * Fixed issue with obsolete Decal custom inspector on HDRP 10 being used on HDRP 11
+    * Fixed issue on incorrect naming when creating shaders/shader functions on local packages
+    * Had to revert node previews render texture format to its original one 
+        * Time based previews weren't working correctly due to lack of precision over new format
+
+* Improvements:
+    * Face type nodes now also using SRP core macros when on URP
+        * These macros use either VFACE or SV_IsFrontFace according to graphics API
+        * For Builtin pipeline custom Face macros were created similar to SRP ones
+
 v1.8.9 rev 09:
 * Fixes:
     * Limiting new XBox and Playstation Render Platform tags to Unity 2019.4 and above

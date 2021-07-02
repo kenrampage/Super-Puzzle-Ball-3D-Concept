@@ -5,6 +5,8 @@ namespace AmplifyShaderEditor
 {
 	public static class GeneratorUtils
 	{
+		public const string VertexBlendWeightsStr = "ase_blendWeights";
+		public const string VertexBlendIndicesStr = "ase_blendIndices";
 		public const string ObjectScaleStr = "ase_objectScale";
 		public const string ParentObjectScaleStr = "ase_parentObjectScale";
 		public const string ScreenDepthStr = "ase_screenDepth";
@@ -1028,6 +1030,7 @@ namespace AmplifyShaderEditor
 					case WirePortDataType.SAMPLER3D:
 					case WirePortDataType.SAMPLERCUBE:
 					case WirePortDataType.UINT:
+					case WirePortDataType.UINT4:
 					case WirePortDataType.SAMPLER2DARRAY:
 					case WirePortDataType.SAMPLERSTATE:return value;
 				}
