@@ -23,8 +23,8 @@ public class PlayerController3D : MonoBehaviour
     [SerializeField] LayerMask groundLayerMask;
     public Vector3 groundPosition;
 
-    public bool inWindArea = false;
-    public GameObject windArea;
+    // public bool inWindArea = false;
+    // public GameObject windArea;
 
     private void Awake()
     {
@@ -54,13 +54,7 @@ public class PlayerController3D : MonoBehaviour
         GetDistanceToGround();
     }
 
-    private void FixedUpdate()
-    {
-        if(inWindArea)
-        {
-            playerRb.AddForce(windArea.GetComponent<WindArea>().windDirection * windArea.GetComponent<WindArea>().windStrength);
-        }
-    }
+
 
     // Calculates direction and angle between player and mouse
     public void SetBoostDirection()
@@ -128,23 +122,23 @@ public class PlayerController3D : MonoBehaviour
         // Debug.DrawRay(transform.position, Vector2.down * raycastHit.distance, rayColor);
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "WindArea")
-        {
-            windArea = other.gameObject;
-            inWindArea = true;
-        }
-    }
+    // private void OnTriggerEnter(Collider other)
+    // {
+    //     if (other.gameObject.tag == "WindArea")
+    //     {
+    //         windArea = other.gameObject;
+    //         inWindArea = true;
+    //     }
+    // }
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.tag == "WindArea")
-        {
-            windArea = null;
-            inWindArea = false;
-        }
-    }
+    // private void OnTriggerExit(Collider other)
+    // {
+    //     if (other.gameObject.tag == "WindArea")
+    //     {
+    //         windArea = null;
+    //         inWindArea = false;
+    //     }
+    // }
 
 }
 

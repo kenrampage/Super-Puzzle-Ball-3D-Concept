@@ -13,13 +13,13 @@ public class PatrolObject : MonoBehaviour
     private bool objectIsMoving;
 
     public GameObject movingObject;
-    public Vector3 offset;
+    public ProgressBar timer;
 
     public float speed;
     public float waitTime;
     public bool moveForward;
 
-
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -36,6 +36,8 @@ public class PatrolObject : MonoBehaviour
             waypointIndex = waypoints.Length - 1;
         }
 
+        timer.minValue = 0;
+        timer.maxValue = waitTime;
 
     }
 
@@ -52,6 +54,7 @@ public class PatrolObject : MonoBehaviour
             MoveObject();
         }
 
+        Timer();
 
     }
 
@@ -127,10 +130,27 @@ public class PatrolObject : MonoBehaviour
 
         for (int i = 0; i < lineRenderer.positionCount; i++)
         {
-            waypoints[i] = lineRenderer.GetPosition(i) - offset;
+            waypoints[i] = lineRenderer.GetPosition(i);
         }
 
         movingObject.transform.position = waypoints[0];
+
+    }
+
+    void Timer()
+    {
+        if (!objectIsMoving)
+        {
+            timer.currentValue += Time.deltaTime;
+        }
+        else
+        {
+            if (timer.currentValue > 0)
+            {
+                timer.currentValue -= Time.deltaTime *5;
+            }
+            
+        }
 
     }
 
