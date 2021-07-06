@@ -13,13 +13,17 @@ public class PatrolObject : MonoBehaviour
     private bool objectIsMoving;
 
     public GameObject movingObject;
+    public GameObject rumbleObject;
     public ProgressBar timer;
 
     public float speed;
     public float waitTime;
     public bool moveForward;
 
-    
+    public bool rumbleOn;
+    public float rumbleAmount = .05f;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -65,6 +69,11 @@ public class PatrolObject : MonoBehaviour
         if (movingObject.transform.position != waypoints[waypointIndex] && objectIsMoving)
         {
             movingObject.transform.position = Vector3.MoveTowards(movingObject.transform.position, waypoints[waypointIndex], speed * Time.deltaTime);
+            if (rumbleOn)
+            {
+                ChildObjectRumble();
+            }
+
         }
 
         if (movingObject.transform.position == waypoints[waypointIndex] && objectIsMoving)
@@ -72,6 +81,9 @@ public class PatrolObject : MonoBehaviour
             objectIsMoving = false;
             StartCoroutine(NextWayPoint());
         }
+
+
+
 
     }
 
@@ -137,7 +149,7 @@ public class PatrolObject : MonoBehaviour
 
     }
 
-    void Timer()
+    private void Timer()
     {
         if (!objectIsMoving)
         {
@@ -147,11 +159,16 @@ public class PatrolObject : MonoBehaviour
         {
             if (timer.currentValue > 0)
             {
-                timer.currentValue -= Time.deltaTime *5;
+                timer.currentValue -= Time.deltaTime * 5;
             }
-            
+
         }
 
+    }
+
+    private void ChildObjectRumble()
+    {
+        rumbleObject.transform.localPosition = new Vector3(Random.Range(-rumbleAmount, rumbleAmount), Random.Range(-rumbleAmount, rumbleAmount), rumbleObject.transform.localPosition.z);
     }
 
 }

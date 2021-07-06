@@ -14,5 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   worlds:
   - {fileID: 11400000, guid: 9c6db06bf6772a54690cb936b3c3c396, type: 2}
-  - {fileID: 11400000, guid: f4f5318a7fd494240b0605a91abf759f, type: 2}
   worldIndex: 0

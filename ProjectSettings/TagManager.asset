@@ -7,6 +7,8 @@ TagManager:
   - Target
   - NoBoostReset
   - WindArea
+  - ShowOnCamera
+  - CameraTargetTrigger
   layers:
   - Default
   - TransparentFX

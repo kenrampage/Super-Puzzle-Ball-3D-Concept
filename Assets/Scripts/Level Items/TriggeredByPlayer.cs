@@ -10,13 +10,20 @@ public class TriggeredByPlayer : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        playerRb = other.GetComponent<Rigidbody>();
-        triggerOn = true;
-    }
+        if (other.tag == "Player")
+        {
 
+            playerRb = other.GetComponent<Rigidbody>();
+            triggerOn = true;
+        }
+    }
     private void OnTriggerExit(Collider other)
     {
-                playerRb = null;
-        triggerOn = false;
+        if (other.tag == "Player")
+        {
+            playerRb = null;
+            triggerOn = false;
+        }
+
     }
 }

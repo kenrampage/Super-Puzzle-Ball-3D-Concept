@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
-
+using Cinemachine;
 
 public class EventLevelData : UnityEvent<string> { }
 
@@ -32,6 +32,8 @@ public class GameManager : Singleton<GameManager>
 
     public GameObject playerObject;
     [HideInInspector] public GameObject spawnPoint;
+
+    public CinemachineTargetGroup targetGroup;
 
     override public void Awake()
     {

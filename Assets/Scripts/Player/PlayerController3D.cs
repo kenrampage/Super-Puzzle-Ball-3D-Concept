@@ -6,15 +6,11 @@ using UnityEngine.InputSystem;
 // Handles all movement during the game/play scenes
 public class PlayerController3D : MonoBehaviour
 {
-    // public SO_ScoreKeeper scoreKeeper;
     public SessionDataSO sessionData;
     public Rigidbody playerRb;
 
     public float boostForce = 7;
-    // public float boostCooldown = .5f;
 
-    // private float boostNextFireTime = 0;
-    // private float boostCooldownLeftPercent;
     public bool boostOn = false;
     private InputActions inputActions;
     public Camera gameCamera;
@@ -22,9 +18,6 @@ public class PlayerController3D : MonoBehaviour
 
     [SerializeField] LayerMask groundLayerMask;
     public Vector3 groundPosition;
-
-    // public bool inWindArea = false;
-    // public GameObject windArea;
 
     private void Awake()
     {
@@ -50,7 +43,6 @@ public class PlayerController3D : MonoBehaviour
 
     private void Update()
     {
-        // BoostCooldownEffect();
         GetDistanceToGround();
     }
 
@@ -122,23 +114,6 @@ public class PlayerController3D : MonoBehaviour
         // Debug.DrawRay(transform.position, Vector2.down * raycastHit.distance, rayColor);
     }
 
-    // private void OnTriggerEnter(Collider other)
-    // {
-    //     if (other.gameObject.tag == "WindArea")
-    //     {
-    //         windArea = other.gameObject;
-    //         inWindArea = true;
-    //     }
-    // }
-
-    // private void OnTriggerExit(Collider other)
-    // {
-    //     if (other.gameObject.tag == "WindArea")
-    //     {
-    //         windArea = null;
-    //         inWindArea = false;
-    //     }
-    // }
 
 }
 

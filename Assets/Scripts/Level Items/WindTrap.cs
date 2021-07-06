@@ -41,7 +41,7 @@ public class WindTrap : MonoBehaviour
 
         if (windArea.triggerOn && windOn)
         {
-            windArea.playerRb.AddForce(windDirection * windStrength);
+            windArea.playerRb.AddForce(-transform.right * windStrength);
         }
     }
 
