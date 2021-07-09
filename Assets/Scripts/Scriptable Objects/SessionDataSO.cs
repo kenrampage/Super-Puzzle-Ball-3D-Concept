@@ -12,12 +12,15 @@ public class SessionDataSO : ScriptableObject
 {
     // public int currentLevelSetIndex;
     public WorldDatabaseSO worldDatabase;
+    public LevelSO currentLevel;
 
     // public string currentLevelName;
     // public string nextLevelName;
 
     public float levelTimer;
     public bool timerIsActive;
+    public bool newBestTime;
+    public bool newRank;
 
     public enum GameState
     {
@@ -125,7 +128,7 @@ public class SessionDataSO : ScriptableObject
                 break;
 
             case PlayerState.SPAWNING:
-                
+
                 break;
 
             case PlayerState.ACTIVE:
@@ -148,10 +151,81 @@ public class SessionDataSO : ScriptableObject
     public void ResetSessionData()
     {
         ResetTimer();
-        // currentLevelName = string.Empty;
-        // nextLevelName = string.Empty;
         currentPlayerState = PlayerState.INACTIVE;
-        // currentLevelSetIndex = 0;
+        newBestTime = false;
+        newRank = false;
+        GetCurrentLevel();
+
+    }
+
+    public void ResetLevelStats()
+    {
+        currentLevel.bestTime = 0;
+        currentLevel.currentRank = 0;
+        currentLevel.previousRank = 0;
+        currentLevel.newRank = 0;
+
+        Debug.Log("Performance Stats for " + currentLevel.levelName + " have been reset") ;
+    }
+
+    public void GetCurrentLevel()
+    {
+        currentLevel = worldDatabase.GetCurrentWorld().GetCurrentLevel();
+    }
+
+    public void SetLevelResults()
+    {
+        if (levelTimer < currentLevel.bestTime || currentLevel.bestTime == 0)
+        {
+            currentLevel.bestTime = levelTimer;
+            newBestTime = true;
+            Debug.Log("NEW BEST TIME!!");
+
+        }
+
+
+        if (levelTimer <= currentLevel.goldTime)
+        {
+            currentLevel.newRank = 3;
+        }
+        else if (levelTimer > currentLevel.goldTime && levelTimer <= currentLevel.silverTime)
+        {
+            currentLevel.newRank = 2;
+        }
+        else if (levelTimer > currentLevel.silverTime && levelTimer <= currentLevel.bronzeTime)
+        {
+            currentLevel.newRank = 1;
+        }
+        else if (levelTimer > currentLevel.bronzeTime)
+        {
+            currentLevel.newRank = 0;
+        }
+
+        if (currentLevel.newRank == 0)
+        {
+
+        }
+
+        if (currentLevel.currentRank == 0 && currentLevel.newRank > 0)
+        {
+            currentLevel.previousRank = currentLevel.currentRank;
+            currentLevel.currentRank = currentLevel.newRank;
+            newRank = true;
+            Debug.Log("NEW RANK!");
+        }
+
+        if (currentLevel.newRank > currentLevel.currentRank)
+        {
+            currentLevel.previousRank = currentLevel.currentRank;
+            currentLevel.currentRank = currentLevel.newRank;
+            newRank = true;
+            Debug.Log("NEW RANK!");
+        }
+
+        if (currentLevel.currentRank <= currentLevel.newRank)
+        {
+
+        }
     }
 
 }

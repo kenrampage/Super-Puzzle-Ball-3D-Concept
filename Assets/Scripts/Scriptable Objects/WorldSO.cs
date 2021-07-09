@@ -8,7 +8,13 @@ public class WorldSO : ScriptableObject
 {
     public string description;
     public int levelIndex = 0;
-    public List<string> levels = new List<string>();
+    public List<LevelSO> levels = new List<LevelSO>();
+
+    // get current LevelSO
+    public LevelSO GetCurrentLevel()
+    {
+        return levels[levelIndex];
+    }
 
 
 

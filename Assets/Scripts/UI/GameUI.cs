@@ -15,7 +15,7 @@ public class GameUI : MonoBehaviour
 
     private void OnEnable()
     {
-        currentLevelText.text = worldDatabase.CurrentLevelName();
+        currentLevelText.text = worldDatabase.GetCurrentLevelName();
 
     }
 

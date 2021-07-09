@@ -40,6 +40,7 @@ public class GameManager : Singleton<GameManager>
         base.Awake();
         inputActions = new InputActions();
         worldDatabase.UpdateIndexes();
+        sessionData.GetCurrentLevel();
         // DontDestroyOnLoad(gameObject);
 
     }
@@ -204,6 +205,7 @@ public class GameManager : Singleton<GameManager>
 
             case SessionDataSO.GameState.LEVELEND:
                 sessionData.UpdatePlayerState(SessionDataSO.PlayerState.DESPAWNING);
+                sessionData.SetLevelResults();
                 break;
 
             default:

@@ -23,7 +23,7 @@ public class LevelEndUI : MonoBehaviour
     {
         TimeSpan timeSpan = TimeSpan.FromSeconds(sessionData.levelTimer);
         timerText = timeSpan.ToString("mm':'ss'.'ff");
-        levelEndText.text = "End of " + worldDatabase.CurrentLevelName();
+        levelEndText.text = "End of " + worldDatabase.GetCurrentLevelName();
         levelEndTimer.text = "Your time: " + timerText;
     }
 

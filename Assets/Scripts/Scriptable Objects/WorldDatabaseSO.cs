@@ -22,12 +22,12 @@ public class WorldDatabaseSO : ScriptableObject
     }
 
     // get current worldSO
-    public WorldSO CurrentWorld()
+    public WorldSO GetCurrentWorld()
     {
         return worlds[worldIndex];
     }
 
-    public string CurrentWorldDescription()
+    public string GetCurrentWorldDescription()
     {
         return worlds[worldIndex].description;
     }
@@ -56,10 +56,10 @@ public class WorldDatabaseSO : ScriptableObject
     // Load the scene at the specified index
     public void LoadLevelWithIndex(int index)
     {
-        if (index <= CurrentWorld().levels.Count - 1)
+        if (index <= GetCurrentWorld().levels.Count - 1)
         {
-            CurrentWorld().levelIndex = index;
-            SceneManager.LoadScene(CurrentWorld().levels[index]);
+            GetCurrentWorld().levelIndex = index;
+            SceneManager.LoadScene(GetCurrentWorld().levels[index].sceneName);
         }
         else
         {
@@ -77,31 +77,31 @@ public class WorldDatabaseSO : ScriptableObject
     // Load next level
     public void NextLevel()
     {
-        LoadLevelWithIndex(CurrentWorld().levelIndex + 1);
+        LoadLevelWithIndex(GetCurrentWorld().levelIndex + 1);
     }
 
     // restart current level
     public void RestartLevel()
     {
-        LoadLevelWithIndex(CurrentWorld().levelIndex);
+        LoadLevelWithIndex(GetCurrentWorld().levelIndex);
     }
 
     // Sets the level index
     public void SetLevelIndex(int index)
     {
-        CurrentWorld().levelIndex = index;
+        GetCurrentWorld().levelIndex = index;
     }
 
     //Resets level index for current world
     public void ResetLevelIndex()
     {
-        CurrentWorld().levelIndex = 0;
+        GetCurrentWorld().levelIndex = 0;
     }
 
     // return current level name
-    public string CurrentLevelName()
+    public string GetCurrentLevelName()
     {
-        return CurrentWorld().levels[CurrentWorld().levelIndex].ToString();
+        return GetCurrentWorld().levels[GetCurrentWorld().levelIndex].levelName;
     }
 
     // digs through all worlds and levels to update their indexes based on the loaded scene
@@ -111,9 +111,9 @@ public class WorldDatabaseSO : ScriptableObject
 
         foreach (WorldSO world in worlds)
         {
-            foreach (string level in world.levels)
+            foreach (LevelSO level in world.levels)
             {
-                if(level == currentScene)
+                if(level.sceneName == currentScene)
                 {
                     world.levelIndex = world.levels.IndexOf(level);
                     Debug.Log("Current Level Index is: " + world.levelIndex);

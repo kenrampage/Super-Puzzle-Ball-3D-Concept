@@ -115,7 +115,7 @@ public class UIManager : MonoBehaviour
 
     void UpdateLevelText()
     {
-        gameUICanvas.transform.Find("CurrentLevelText").GetComponent<TextMeshProUGUI>().text = worldDatabase.CurrentLevelName();
+        gameUICanvas.transform.Find("CurrentLevelText").GetComponent<TextMeshProUGUI>().text = worldDatabase.GetCurrentLevelName();
     }
 
 }

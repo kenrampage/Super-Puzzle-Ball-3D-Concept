@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2ce851094d043c4696d92b9a6b9b9ff, type: 3}
+  m_Name: Level 1-1
+  m_EditorClassIdentifier: 
+  levelName: Alpha Level 1
+  description: The first level in initial release
+  difficulty: 1
+  bestTime: 63.193718
+  bronzeTime: 150
+  silverTime: 120
+  goldTime: 90
+  newRank: 3
+  currentRank: 3
+  previousRank: 0
+  sceneName: Level 1-1
+  thumbnail: {fileID: 0}

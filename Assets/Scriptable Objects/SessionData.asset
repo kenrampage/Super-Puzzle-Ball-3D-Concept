@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb6f445c931d0eb45bfd9b014ddda8f6, type: 3}
   m_Name: SessionData
   m_EditorClassIdentifier: 
-  currentLevelSetIndex: 0
-  levelSetLibrary: {fileID: 11400000, guid: 2a05914e88495744596c21ff2b6186d5, type: 2}
-  currentLevelName: 
-  nextLevelName: 
-  levelTimer: 0
-  timerIsActive: 0
+  worldDatabase: {fileID: 11400000, guid: 98b3dd04c0ced6c4ca1002e22c35c333, type: 2}
+  levelTimer: 6.4018245
+  timerIsActive: 1
+  currentGameState: 1
+  currentPlayerState: 2

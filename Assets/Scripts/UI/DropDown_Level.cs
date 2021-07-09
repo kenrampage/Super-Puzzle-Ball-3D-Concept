@@ -20,12 +20,12 @@ public class DropDown_Level : MonoBehaviour
 
         dropDown.options.Clear();
 
-        foreach (string t in worldDatabase.CurrentWorld().levels)
+        foreach (LevelSO t in worldDatabase.GetCurrentWorld().levels)
         {
-            dropDown.options.Add(new TMP_Dropdown.OptionData() { text = t });
+            dropDown.options.Add(new TMP_Dropdown.OptionData() { text = t.levelName });
         }
 
-        dropDown.SetValueWithoutNotify(worldDatabase.CurrentWorld().levelIndex);
+        dropDown.SetValueWithoutNotify(worldDatabase.GetCurrentWorld().levelIndex);
         dropDown.RefreshShownValue();
         
     }

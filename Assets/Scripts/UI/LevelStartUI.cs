@@ -16,7 +16,7 @@ public class LevelStartUI : MonoBehaviour
 
     private void UpdateCurrentLevelText()
     {
-        currentLevelText.text = worldDatabase.CurrentLevelName();
+        currentLevelText.text = worldDatabase.GetCurrentLevelName();
     }
 
 }
