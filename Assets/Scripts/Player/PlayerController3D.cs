@@ -8,6 +8,8 @@ public class PlayerController3D : MonoBehaviour
 {
     public SessionDataSO sessionData;
     public Rigidbody playerRb;
+    public TrailRenderer trailRenderer;
+    public float trailFadeDelay;
 
     public float boostForce = 7;
 
@@ -26,6 +28,8 @@ public class PlayerController3D : MonoBehaviour
 
     private void Start()
     {
+        trailRenderer = GetComponent<TrailRenderer>();
+        trailRenderer.emitting = false;
         inputActions.Player.Click.performed += _ => BoostPlayer();
 
     }
@@ -70,6 +74,8 @@ public class PlayerController3D : MonoBehaviour
             {
                 playerRb.AddForce(boostDirection * boostForce, ForceMode.Impulse);
                 boostOn = false;
+                trailRenderer.emitting = true;
+                StartCoroutine("TrailFade");
 
             }
             else
@@ -87,6 +93,7 @@ public class PlayerController3D : MonoBehaviour
         if (other.gameObject.tag != "NoBoostReset")
         {
             boostOn = true;
+            // trailRenderer.emitting = false;
         }
 
     }
@@ -112,6 +119,12 @@ public class PlayerController3D : MonoBehaviour
 
         // Color rayColor = Color.red;
         // Debug.DrawRay(transform.position, Vector2.down * raycastHit.distance, rayColor);
+    }
+
+    public IEnumerator TrailFade()
+    {
+        yield return new WaitForSeconds(trailFadeDelay);
+        trailRenderer.emitting = false;
     }
 
 
