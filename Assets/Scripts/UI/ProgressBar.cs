@@ -8,9 +8,6 @@ public class ProgressBar : MonoBehaviour
     public float minValue;
     public float maxValue;
     public float currentValue;
-
-    public Image background;
-    public Color backgroundColor;
     
     public Image fill;
     public Color fillColor;
@@ -30,6 +27,5 @@ public class ProgressBar : MonoBehaviour
         fill.fillAmount = fillAmount;
 
         fill.color = fillColor;
-        background.color = backgroundColor;
     }
 }

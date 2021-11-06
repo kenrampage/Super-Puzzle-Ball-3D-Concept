@@ -912,10 +912,10 @@ Shader /*ase_name*/ "Hidden/Universal/PBR" /*end*/
 				float3 Albedo = /*ase_frag_out:Albedo;Float3;0;-1;_Albedo*/float3(0.5, 0.5, 0.5)/*end*/;
 				float3 Normal = /*ase_frag_out:Normal;Float3;1*/float3(0, 0, 1)/*end*/;
 				float3 Emission = /*ase_frag_out:Emission;Float3;2;-1;_Emission*/0/*end*/;
-				float3 Specular = /*ase_frag_out:Specular;Float3;9*/0.5/*end*/;
-				float Metallic = /*ase_frag_out:Metallic;Float;3*/0/*end*/;
-				float Smoothness = /*ase_frag_out:Smoothness;Float;4*/0.5/*end*/;
-				float Occlusion = /*ase_frag_out:Occlusion;Float;5*/1/*end*/;
+				float3 Specular = /*ase_frag_out:Specular;Float3;9;-1;_Specular*/0.5/*end*/;
+				float Metallic = /*ase_frag_out:Metallic;Float;3;-1;_Metallic*/0/*end*/;
+				float Smoothness = /*ase_frag_out:Smoothness;Float;4;-1;_Smoothness*/0.5/*end*/;
+				float Occlusion = /*ase_frag_out:Occlusion;Float;5;-1;_Occlusion*/1/*end*/;
 				float Alpha = /*ase_frag_out:Alpha;Float;6;-1;_Alpha*/1/*end*/;
 				float AlphaClipThreshold = /*ase_frag_out:Alpha Clip Threshold;Float;7;-1;_AlphaClip*/0.5/*end*/;
 				float AlphaClipThresholdShadow = /*ase_frag_out:Alpha Clip Threshold Shadow;Float;16;-1;_AlphaClipShadow*/0.5/*end*/;
@@ -1041,9 +1041,9 @@ Shader /*ase_name*/ "Hidden/Universal/PBR" /*end*/
 
 				#ifdef _REFRACTION_ASE
 					float4 projScreenPos = ScreenPos / ScreenPos.w;
-					float3 refractionOffset = ( RefractionIndex - 1.0 ) * mul( UNITY_MATRIX_V, WorldNormal ).xyz * ( 1.0 - dot( WorldNormal, WorldViewDirection ) );
+					float3 refractionOffset = ( RefractionIndex - 1.0 ) * mul( UNITY_MATRIX_V, float4( WorldNormal,0 ) ).xyz * ( 1.0 - dot( WorldNormal, WorldViewDirection ) );
 					projScreenPos.xy += refractionOffset.xy;
-					float3 refraction = SHADERGRAPH_SAMPLE_SCENE_COLOR( projScreenPos ) * RefractionColor;
+					float3 refraction = SHADERGRAPH_SAMPLE_SCENE_COLOR( projScreenPos.xy ) * RefractionColor;
 					color.rgb = lerp( refraction, color.rgb, color.a );
 					color.a = 1;
 				#endif
@@ -2587,10 +2587,10 @@ Shader /*ase_name*/ "Hidden/Universal/PBR" /*end*/
 				float3 Albedo = /*ase_frag_out:Albedo;Float3;0;-1;_Albedo*/float3(0.5, 0.5, 0.5)/*end*/;
 				float3 Normal = /*ase_frag_out:Normal;Float3;1*/float3(0, 0, 1)/*end*/;
 				float3 Emission = /*ase_frag_out:Emission;Float3;2;-1;_Emission*/0/*end*/;
-				float3 Specular = /*ase_frag_out:Specular;Float3;9*/0.5/*end*/;
-				float Metallic = /*ase_frag_out:Metallic;Float;3*/0/*end*/;
-				float Smoothness = /*ase_frag_out:Smoothness;Float;4*/0.5/*end*/;
-				float Occlusion = /*ase_frag_out:Occlusion;Float;5*/1/*end*/;
+				float3 Specular = /*ase_frag_out:Specular;Float3;9;-1;_Specular*/0.5/*end*/;
+				float Metallic = /*ase_frag_out:Metallic;Float;3;-1;_Metallic*/0/*end*/;
+				float Smoothness = /*ase_frag_out:Smoothness;Float;4;-1;_Smoothness*/0.5/*end*/;
+				float Occlusion = /*ase_frag_out:Occlusion;Float;5;-1;_Occlusion*/1/*end*/;
 				float Alpha = /*ase_frag_out:Alpha;Float;6;-1;_Alpha*/1/*end*/;
 				float AlphaClipThreshold = /*ase_frag_out:Alpha Clip Threshold;Float;7;-1;_AlphaClip*/0.5/*end*/;
 				float AlphaClipThresholdShadow = /*ase_frag_out:Alpha Clip Threshold Shadow;Float;16;-1;_AlphaClipShadow*/0.5/*end*/;
@@ -2709,9 +2709,9 @@ Shader /*ase_name*/ "Hidden/Universal/PBR" /*end*/
 				
 				#ifdef _REFRACTION_ASE
 					float4 projScreenPos = ScreenPos / ScreenPos.w;
-					float3 refractionOffset = ( RefractionIndex - 1.0 ) * mul( UNITY_MATRIX_V, WorldNormal ).xyz * ( 1.0 - dot( WorldNormal, WorldViewDirection ) );
+					float3 refractionOffset = ( RefractionIndex - 1.0 ) * mul( UNITY_MATRIX_V, float4( WorldNormal, 0 ) ).xyz * ( 1.0 - dot( WorldNormal, WorldViewDirection ) );
 					projScreenPos.xy += refractionOffset.xy;
-					float3 refraction = SHADERGRAPH_SAMPLE_SCENE_COLOR( projScreenPos ) * RefractionColor;
+					float3 refraction = SHADERGRAPH_SAMPLE_SCENE_COLOR( projScreenPos.xy ) * RefractionColor;
 					color.rgb = lerp( refraction, color.rgb, color.a );
 					color.a = 1;
 				#endif
