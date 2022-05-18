@@ -22,7 +22,7 @@ public class Pointer : MonoBehaviour
         // print(aimDirection);
 
         float aimAngle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
-        print(aimAngle);
+        // print(aimAngle);
 
         transform.rotation = Quaternion.Euler(0,0,aimAngle);
 

@@ -296,7 +296,8 @@ MonoBehaviour:
   Plugins: []
   MasterBanks:
   - Master
-  Banks: []
+  Banks:
+  - SFX_Bounce
   BanksToLoad: []
   LiveUpdatePort: 9264
   EnableMemoryTracking: 0
