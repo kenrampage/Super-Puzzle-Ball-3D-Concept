@@ -22,5 +22,5 @@ MonoBehaviour:
   newRank: 3
   currentRank: 3
   previousRank: 0
-  sceneName: Level 1-1
+  sceneName: Level 1-1 Load
   thumbnail: {fileID: 0}

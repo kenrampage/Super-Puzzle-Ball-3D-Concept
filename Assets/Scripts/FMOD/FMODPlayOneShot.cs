@@ -18,7 +18,6 @@ public class FMODPlayOneShot : MonoBehaviour
     {
         if (soundEffectsOn)
         {
-            print(fmodEvent.Path.ToString() + " Played!");
             RuntimeManager.PlayOneShot(fmodEvent, gameObject.transform.position);
 
             // if (is3D)
