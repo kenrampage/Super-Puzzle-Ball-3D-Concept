@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class RotateObject : MonoBehaviour
 {
@@ -18,6 +19,10 @@ public class RotateObject : MonoBehaviour
     Vector3 rotBA;
 
     private bool firstRot;
+    public bool isRotating = false;
+
+    [SerializeField] private UnityEvent onRotateStart;
+    [SerializeField] private UnityEvent onRotateStop;
 
 
     void Start()
@@ -32,7 +37,7 @@ public class RotateObject : MonoBehaviour
 
         
         rotTimeA = rotTimeBA * (Mathf.Abs(rotDegreesA) / Mathf.Abs(rotDegreesB - rotDegreesA));
-        print(rotTimeA);
+        // print(rotTimeA);
 
         StartCoroutine(Rotate());
     }
@@ -58,14 +63,15 @@ public class RotateObject : MonoBehaviour
         }
     }
 
-    bool rotating = false;
+    
     IEnumerator RotateTargetObject(GameObject gameObjectToMove, Vector3 eulerAngles, float duration)
     {
-        if (rotating)
+        if (isRotating)
         {
             yield break;
         }
-        rotating = true;
+        // isRotating = true;
+        StartRotating();
 
         Vector3 newRot = gameObjectToMove.transform.eulerAngles + eulerAngles;
 
@@ -79,7 +85,20 @@ public class RotateObject : MonoBehaviour
             yield return null;
         }
         
-        rotating = false;
+        // isRotating = false;
+        StopRotating();
 
+    }
+
+    private void StartRotating()
+    {
+        isRotating = true;
+        onRotateStart?.Invoke();
+    }
+
+    private void StopRotating()
+    {
+        isRotating = false;
+        onRotateStop?.Invoke();
     }
 }

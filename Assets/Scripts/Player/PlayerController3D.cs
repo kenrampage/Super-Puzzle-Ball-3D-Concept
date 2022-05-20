@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Events;
 
 // Handles all movement during the game/play scenes
 public class PlayerController3D : MonoBehaviour
@@ -20,6 +21,8 @@ public class PlayerController3D : MonoBehaviour
 
     [SerializeField] LayerMask groundLayerMask;
     public Vector3 groundPosition;
+
+    [SerializeField] private UnityEvent onBoost;
 
     private void Awake()
     {
@@ -72,6 +75,7 @@ public class PlayerController3D : MonoBehaviour
 
             if (boostOn)
             {
+                onBoost?.Invoke();
                 playerRb.AddForce(boostDirection * boostForce, ForceMode.Impulse);
                 boostOn = false;
                 trailRenderer.emitting = true;

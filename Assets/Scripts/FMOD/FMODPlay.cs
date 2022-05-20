@@ -54,10 +54,10 @@ public class FMODPlay : MonoBehaviour
     [ContextMenu("StartEvent")]
     public void StartEvent()
     {
-        
+
         eventInstance.start();
-        
-        
+
+
         // if (playbackState != FMOD.Studio.PLAYBACK_STATE.PLAYING)
         // {
         //     eventInstance.start();

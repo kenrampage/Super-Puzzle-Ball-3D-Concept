@@ -18,35 +18,17 @@ public class FMODPlayOneShot : MonoBehaviour
     {
         if (soundEffectsOn)
         {
+            print(fmodEvent.Path.ToString() + " Played!");
             RuntimeManager.PlayOneShot(fmodEvent, gameObject.transform.position);
 
-            if (is3D)
-            {
-                PlaySoundEventAttached();
-            }
-            else
-            {
-                RuntimeManager.PlayOneShot(fmodEvent);
-            }
-        }
-
-    }
-
-    public void PlaySoundEventWithParam()
-    {
-
-        if (soundEffectsOn)
-        {
-            RuntimeManager.PlayOneShot(fmodEvent, gameObject.transform.position);
-
-            if (is3D)
-            {
-                PlaySoundEventAttached();
-            }
-            else
-            {
-                RuntimeManager.PlayOneShot(fmodEvent);
-            }
+            // if (is3D)
+            // {
+            //     PlaySoundEventAttached();
+            // }
+            // else
+            // {
+            //     RuntimeManager.PlayOneShot(fmodEvent);
+            // }
         }
 
     }

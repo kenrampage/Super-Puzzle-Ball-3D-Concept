@@ -297,7 +297,10 @@ MonoBehaviour:
   MasterBanks:
   - Master
   Banks:
+  - SFX_Ambience
   - SFX_Bounce
+  - SFX_Level
+  - SFX_Player
   BanksToLoad: []
   LiveUpdatePort: 9264
   EnableMemoryTracking: 0

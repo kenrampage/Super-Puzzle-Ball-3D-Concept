@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class AnimSpawnPipe : MonoBehaviour
 {
@@ -11,6 +12,9 @@ public class AnimSpawnPipe : MonoBehaviour
 
     public float portalCloseDelay;
 
+    [SerializeField] private UnityEvent onPipeOpen;
+    [SerializeField] private UnityEvent onPipeClose;
+
     private void Start()
     {
         sessionData.OnPlayerStateChanged.AddListener(HandlePlayerStateChanged);
@@ -20,12 +24,14 @@ public class AnimSpawnPipe : MonoBehaviour
     public void Open()
     {
         animator.SetBool("Open", true);
+        onPipeOpen?.Invoke();
     }
 
     public IEnumerator Close()
     {
         yield return new WaitForSecondsRealtime(portalCloseDelay);
         animator.SetBool("Open", false);
+        onPipeClose?.Invoke();
     }
 
     public void HandlePlayerStateChanged(SessionDataSO.PlayerState currentPlayerState, SessionDataSO.PlayerState previousPlayerState)

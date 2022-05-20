@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class WindTrap : MonoBehaviour
 {
@@ -19,6 +20,8 @@ public class WindTrap : MonoBehaviour
 
     public float rumbleAmount;
 
+    [SerializeField] private UnityEvent onWindStart;
+    [SerializeField] private UnityEvent onWindStop;
 
     private void Start()
     {
@@ -59,7 +62,8 @@ public class WindTrap : MonoBehaviour
                 timer.currentValue = timer.maxValue;
                 timer.fillColor = new Color(1, 0, 0);
                 particles.Play();
-                windOn = true;
+                WindStart();
+                // windOn = true;
 
             }
         }
@@ -72,10 +76,23 @@ public class WindTrap : MonoBehaviour
                 timer.maxValue = cooldownTime;
                 timer.fillColor = new Color(0, 1, 0);
                 particles.Stop();
-                windOn = false;
+                WindStop();
+                // windOn = false;
 
             }
         }
+    }
+
+    private void WindStart()
+    {
+        windOn = true;
+        onWindStart?.Invoke();
+    }
+
+    private void WindStop()
+    {
+        windOn = false;
+        onWindStop?.Invoke();
     }
 
 }

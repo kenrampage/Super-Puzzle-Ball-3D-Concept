@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 [ExecuteInEditMode]
 [RequireComponent(typeof(LineRenderer))]
 public class PatrolObject : MonoBehaviour
 {
     private LineRenderer lineRenderer;
-    private Vector3[] waypoints;
+    private Vector3[] waypointPositions;
     private int waypointIndex;
     private bool isLoop;
     private bool objectIsMoving;
@@ -23,6 +24,9 @@ public class PatrolObject : MonoBehaviour
     public bool rumbleOn;
     public float rumbleAmount = .05f;
 
+    [SerializeField] private UnityEvent onMoveStart;
+    [SerializeField] private UnityEvent onMoveStop;
+
 
     // Start is called before the first frame update
     void Start()
@@ -37,7 +41,7 @@ public class PatrolObject : MonoBehaviour
         }
         else
         {
-            waypointIndex = waypoints.Length - 1;
+            waypointIndex = waypointPositions.Length - 1;
         }
 
         timer.minValue = 0;
@@ -66,9 +70,9 @@ public class PatrolObject : MonoBehaviour
     void MoveObject()
     {
 
-        if (movingObject.transform.position != waypoints[waypointIndex] && objectIsMoving)
+        if (movingObject.transform.position != waypointPositions[waypointIndex] && objectIsMoving)
         {
-            movingObject.transform.position = Vector3.MoveTowards(movingObject.transform.position, waypoints[waypointIndex], speed * Time.deltaTime);
+            movingObject.transform.position = Vector3.MoveTowards(movingObject.transform.position, waypointPositions[waypointIndex], speed * Time.deltaTime);
             if (rumbleOn)
             {
                 ChildObjectRumble();
@@ -76,9 +80,10 @@ public class PatrolObject : MonoBehaviour
 
         }
 
-        if (movingObject.transform.position == waypoints[waypointIndex] && objectIsMoving)
+        if (movingObject.transform.position == waypointPositions[waypointIndex] && objectIsMoving)
         {
-            objectIsMoving = false;
+            // objectIsMoving = false;
+            StopMoving();
             StartCoroutine(NextWayPoint());
         }
 
@@ -94,7 +99,7 @@ public class PatrolObject : MonoBehaviour
         {
             waypointIndex++;
 
-            if (waypointIndex >= waypoints.Length)
+            if (waypointIndex >= waypointPositions.Length)
             {
                 if (isLoop)
                 {
@@ -102,7 +107,7 @@ public class PatrolObject : MonoBehaviour
                 }
                 else
                 {
-                    waypointIndex = waypoints.Length - 2;
+                    waypointIndex = waypointPositions.Length - 2;
                     moveForward = false;
                 }
 
@@ -115,7 +120,7 @@ public class PatrolObject : MonoBehaviour
             {
                 if (isLoop)
                 {
-                    waypointIndex = waypoints.Length - 1;
+                    waypointIndex = waypointPositions.Length - 1;
                 }
                 else
                 {
@@ -129,23 +134,24 @@ public class PatrolObject : MonoBehaviour
 
         yield return new WaitForSeconds(waitTime);
 
-        objectIsMoving = true;
+        // objectIsMoving = true;
+        StartMoving();
     }
 
 
     // Editor function for syncing up the waypoint array and loop settings between the line renderer and this script
     void LineRendererSync()
     {
-        waypoints = new Vector3[lineRenderer.positionCount];
+        waypointPositions = new Vector3[lineRenderer.positionCount];
         isLoop = lineRenderer.loop;
         lineRenderer.SetPosition(0, this.transform.position);
 
         for (int i = 0; i < lineRenderer.positionCount; i++)
         {
-            waypoints[i] = lineRenderer.GetPosition(i);
+            waypointPositions[i] = lineRenderer.GetPosition(i);
         }
 
-        movingObject.transform.position = waypoints[0];
+        movingObject.transform.position = waypointPositions[0];
 
     }
 
@@ -169,6 +175,18 @@ public class PatrolObject : MonoBehaviour
     private void ChildObjectRumble()
     {
         rumbleObject.transform.localPosition = new Vector3(Random.Range(-rumbleAmount, rumbleAmount), Random.Range(-rumbleAmount, rumbleAmount), rumbleObject.transform.localPosition.z);
+    }
+
+    private void StartMoving()
+    {
+        objectIsMoving = true;
+        onMoveStart?.Invoke();
+    }
+
+    private void StopMoving()
+    {
+        objectIsMoving = false;
+        onMoveStop?.Invoke();
     }
 
 }
