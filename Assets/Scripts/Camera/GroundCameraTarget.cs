@@ -17,7 +17,7 @@ public class GroundCameraTarget : MonoBehaviour
         }
         else
         {
-            transform.position = GameManager.Instance.spawnPoint.GetComponent<DistanceToGround>().groundPosition;
+            // transform.position = GameManager.Instance.spawnPoint.GetComponent<DistanceToGround>().groundPosition;
         }
     }
 
