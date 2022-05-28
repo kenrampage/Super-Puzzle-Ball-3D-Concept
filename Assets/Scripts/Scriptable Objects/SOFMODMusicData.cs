@@ -2,7 +2,7 @@ using UnityEngine;
 using FMODUnity;
 using System;
 
-[CreateAssetMenu(fileName = "FMODMusicData", menuName = "Rampage Arcade/SOFMODMusicData")]
+[CreateAssetMenu(fileName = "FMODMusicData", menuName = "Scriptable Objects/SOFMODMusicData")]
 public class SOFMODMusicData : ScriptableObject
 {
     [EventRef] public string[] fmodEvents;

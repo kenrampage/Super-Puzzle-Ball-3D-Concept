@@ -158,6 +158,7 @@ MonoBehaviour:
   - SFX_Bounce
   - SFX_Level
   - SFX_Player
+  - Music
   sceneToLoad: Level 1-1
 --- !u!4 &191775493
 Transform:

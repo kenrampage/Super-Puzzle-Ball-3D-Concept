@@ -297,6 +297,7 @@ MonoBehaviour:
   MasterBanks:
   - Master
   Banks:
+  - Music
   - SFX_Ambience
   - SFX_Bounce
   - SFX_Level

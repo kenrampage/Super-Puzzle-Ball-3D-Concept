@@ -1,11 +1,11 @@
 using UnityEngine;
 using System;
 
-[CreateAssetMenu(fileName = "FMODParameterData_", menuName = "Rampage Arcade/SOFMODParameterData", order = 0)]
+[CreateAssetMenu(fileName = "FMODParameterData_", menuName = "Scriptable Objects/SOFMODParameterData", order = 0)]
 public class SOFMODParameterData : ScriptableObject
 {
     public event Action<float> onValueUpdated;
-    private float floatValue;
+    [SerializeField] private float floatValue;
     public float FloatValue
     {
         get

@@ -5152,7 +5152,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 551908220}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -24.465, y: 4.7087073, z: -43.87396}
+  m_LocalPosition: {x: -24.465, y: 4.71098, z: -43.898327}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 622643139}
@@ -6337,6 +6337,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 629645589}
+        m_TargetAssemblyTypeName: SetFMODParameterValue, Assembly-CSharp
+        m_MethodName: IncrementValue
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!95 &629645586
 Animator:
   serializedVersion: 3
@@ -6374,6 +6386,19 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 226c29ca55fe82a41ba762c279b92d27, type: 3}
   m_PrefabInstance: {fileID: 629645582}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &629645589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 629645584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 262ba0d63c8bd3c478eadff245c6f837, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fmodParameterData: {fileID: 11400000, guid: 81b2215e92809aa41afdc3780cce7fd0, type: 2}
 --- !u!1001 &630487507
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7475,7 +7500,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 500
-  field of view: 50
+  field of view: 50.000004
   orthographic: 0
   orthographic size: 5.0899887
   m_Depth: 0
@@ -7501,7 +7526,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 711803966}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -24.465, y: 4.7087073, z: -43.87396}
+  m_LocalPosition: {x: -24.465, y: 4.71098, z: -43.898327}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1640814255}
@@ -9036,8 +9061,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 828939629}
+  - component: {fileID: 828939630}
   m_Layer: 0
-  m_Name: SFX_Ambience
+  m_Name: SFX_Music
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9057,6 +9083,30 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &828939630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 828939628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea19af76787d40d4a870435776ab3264, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fmodParameterData: {fileID: 11400000, guid: 81b2215e92809aa41afdc3780cce7fd0, type: 2}
+  fmodEvent:
+    Guid:
+      Data1: -591933001
+      Data2: 1213655390
+      Data3: 1856549760
+      Data4: -585734350
+    Path: event:/Music - Forest 1
+  parameterName: Section
+  ignoreSeekSpeed: 0
+  startOnEnable: 1
+  playbackState: 0
 --- !u!1 &848788379
 GameObject:
   m_ObjectHideFlags: 0
@@ -10464,15 +10514,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b2df0176e82664648a36fb6634fe19fe, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -21.158386
+      value: -19.46
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b2df0176e82664648a36fb6634fe19fe, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -6.047994
+      value: -7.08
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b2df0176e82664648a36fb6634fe19fe, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -9.568169
+      value: -9.09
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b2df0176e82664648a36fb6634fe19fe, type: 3}
       propertyPath: m_LocalRotation.w
@@ -11351,6 +11401,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1000862501}
+        m_TargetAssemblyTypeName: SetFMODParameterValue, Assembly-CSharp
+        m_MethodName: IncrementValue
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!95 &1000862499
 Animator:
   serializedVersion: 3
@@ -11383,6 +11445,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.5, y: 1.5, z: 3}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1000862501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000862496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 262ba0d63c8bd3c478eadff245c6f837, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fmodParameterData: {fileID: 11400000, guid: 81b2215e92809aa41afdc3780cce7fd0, type: 2}
 --- !u!4 &1000954634
 Transform:
   m_ObjectHideFlags: 0
@@ -15338,7 +15413,7 @@ GameObject:
   - component: {fileID: 1473946461}
   - component: {fileID: 1473946460}
   m_Layer: 0
-  m_Name: SFX_Music
+  m_Name: SFX_Ambience
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17288,6 +17363,7 @@ GameObject:
   - component: {fileID: 1710640739}
   - component: {fileID: 1710640738}
   - component: {fileID: 1710640737}
+  - component: {fileID: 1710640740}
   m_Layer: 5
   m_Name: StartButton
   m_TagString: Untagged
@@ -17371,6 +17447,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1710640740}
+        m_TargetAssemblyTypeName: SetFMODParameterValue, Assembly-CSharp
+        m_MethodName: IncrementValue
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1710640738
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17409,6 +17497,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1710640735}
   m_CullTransparentMesh: 0
+--- !u!114 &1710640740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1710640735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 262ba0d63c8bd3c478eadff245c6f837, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fmodParameterData: {fileID: 11400000, guid: 81b2215e92809aa41afdc3780cce7fd0, type: 2}
 --- !u!1001 &1716915809
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17548,6 +17649,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1716915816}
+        m_TargetAssemblyTypeName: SetFMODParameterValue, Assembly-CSharp
+        m_MethodName: IncrementValue
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!95 &1716915813
 Animator:
   serializedVersion: 3
@@ -17585,6 +17698,19 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 226c29ca55fe82a41ba762c279b92d27, type: 3}
   m_PrefabInstance: {fileID: 1716915809}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1716915816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1716915811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 262ba0d63c8bd3c478eadff245c6f837, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fmodParameterData: {fileID: 11400000, guid: 81b2215e92809aa41afdc3780cce7fd0, type: 2}
 --- !u!4 &1717994876 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 8d07ce43468c96b4ca9029a3948aefc1, type: 3}
@@ -18917,6 +19043,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1857629703}
+        m_TargetAssemblyTypeName: SetFMODParameterValue, Assembly-CSharp
+        m_MethodName: IncrementValue
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!95 &1857629701
 Animator:
   serializedVersion: 3
@@ -18949,6 +19087,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.5, y: 1.5, z: 3}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1857629703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1857629698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 262ba0d63c8bd3c478eadff245c6f837, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fmodParameterData: {fileID: 11400000, guid: 81b2215e92809aa41afdc3780cce7fd0, type: 2}
 --- !u!4 &1859970051 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b2df0176e82664648a36fb6634fe19fe, type: 3}
@@ -20906,6 +21057,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2050798756}
+        m_TargetAssemblyTypeName: SetFMODParameterValue, Assembly-CSharp
+        m_MethodName: IncrementValue
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!95 &2050798754
 Animator:
   serializedVersion: 3
@@ -20938,6 +21101,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.5, y: 1.5, z: 3}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2050798756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2050798751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 262ba0d63c8bd3c478eadff245c6f837, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fmodParameterData: {fileID: 11400000, guid: 81b2215e92809aa41afdc3780cce7fd0, type: 2}
 --- !u!1 &2051340694 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -8671496383654439670, guid: 76a15d4702415c44eb1674a65168d6df, type: 3}

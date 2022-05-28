@@ -37,6 +37,7 @@ public class FMODPlayWithParameters : MonoBehaviour
     private void OnEnable()
     {
         InitializeEvent();
+        ResetSOValue();
         fmodParameterData.onValueUpdated += SetParameterByName;
         if (startOnEnable)
         {
@@ -92,6 +93,7 @@ public class FMODPlayWithParameters : MonoBehaviour
 
     public void ReleaseEvent()
     {
+        eventInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         eventInstance.release();
         playAttached = false;
     }
@@ -99,5 +101,12 @@ public class FMODPlayWithParameters : MonoBehaviour
     public void GetPlaybackState()
     {
         eventInstance.getPlaybackState(out playbackState);
+    }
+
+    public void ResetSOValue()
+    {
+        float v;
+        eventInstance.getParameterByName(parameterName, out v);
+        fmodParameterData.FloatValue = v;
     }
 }
